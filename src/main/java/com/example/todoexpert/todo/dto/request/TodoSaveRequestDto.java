@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TodoRequestDto {
+public class TodoSaveRequestDto {
 
+    private final String email;
     private final String title;
-    private final String username;
     private final String contents;
 
 }

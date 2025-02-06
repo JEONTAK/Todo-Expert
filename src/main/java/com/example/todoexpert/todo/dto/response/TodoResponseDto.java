@@ -1,4 +1,4 @@
-package com.example.todoexpert.todo.dto;
+package com.example.todoexpert.todo.dto.response;
 
 import com.example.todoexpert.todo.entity.Todo;
 import java.time.LocalDateTime;
@@ -10,6 +10,7 @@ import lombok.Getter;
 public class TodoResponseDto {
 
     private final Long id;
+    private final String email;
     private final String username;
     private final String title;
     private final String contents;
@@ -17,7 +18,8 @@ public class TodoResponseDto {
     private final LocalDateTime modifiedAt;
 
     public static TodoResponseDto toDto(Todo todo) {
-        return new TodoResponseDto(todo.getId(), todo.getUsername(), todo.getTitle(), todo.getContents(),
+        return new TodoResponseDto(todo.getId(), todo.getUser().getEmail(), todo.getUser().getUsername(),
+                todo.getTitle(), todo.getContents(),
                 todo.getCreatedAt(), todo.getModifiedAt());
     }
 }

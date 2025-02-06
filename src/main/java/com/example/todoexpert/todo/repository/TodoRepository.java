@@ -16,5 +16,12 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
         return findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 게시글이 존재하지 않습니다."));
     }
 
-    List<Todo> findTodosByUsername(String username);
+    @Query("SELECT t FROM Todo t " +
+            "JOIN t.user u " +
+            "WHERE (:email IS NULL OR u.email = :email) " +
+            "AND (:username IS NULL OR u.username = :username) ")
+    List<Todo> findByFilters(
+            @Param("email") String email,
+            @Param("username") String username
+    );
 }

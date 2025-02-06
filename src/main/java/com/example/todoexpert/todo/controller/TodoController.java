@@ -1,7 +1,8 @@
 package com.example.todoexpert.todo.controller;
 
-import com.example.todoexpert.todo.dto.TodoRequestDto;
-import com.example.todoexpert.todo.dto.TodoResponseDto;
+import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
+import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
+import com.example.todoexpert.todo.dto.response.TodoResponseDto;
 import com.example.todoexpert.todo.service.TodoService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,21 +19,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v3")
 @RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoResponseDto> saveTodo(@RequestBody TodoRequestDto requestDto) {
+    public ResponseEntity<TodoResponseDto> saveTodo(@RequestBody TodoSaveRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoResponseDto>> findAll(@RequestParam(required = false) String username) {
-        List<TodoResponseDto> responseDtoList = todoService.findAll(username);
+    public ResponseEntity<List<TodoResponseDto>> findAll(@RequestParam(required = false) String username,
+                                                         @RequestParam(required = false) String userEmail) {
+        List<TodoResponseDto> responseDtoList = todoService.findAll(username, userEmail);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
@@ -44,7 +46,7 @@ public class TodoController {
 
     @PutMapping("/todos/{id}")
     public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long id,
-                                                      @RequestBody TodoRequestDto requestDto) {
+                                                      @RequestBody TodoUpdateRequestDto requestDto) {
         TodoResponseDto updateDto = todoService.updateTodo(id, requestDto);
         return new ResponseEntity<>(updateDto, HttpStatus.OK);
     }

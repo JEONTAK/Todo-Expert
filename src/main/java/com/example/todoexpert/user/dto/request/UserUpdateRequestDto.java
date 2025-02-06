@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserSaveRequestDto {
+public class UserUpdateRequestDto {
 
-    private final String email;
     private final String username;
     private final String password;
 

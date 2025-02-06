@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TodoRequestDto {
+public class TodoUpdateRequestDto {
 
     private final String title;
-    private final String username;
     private final String contents;
 
 }
