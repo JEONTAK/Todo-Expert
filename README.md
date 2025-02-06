@@ -85,7 +85,7 @@ CREATE TABLE user
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
     email       VARCHAR(255) NOT NULL,
-    username        VARCHAR(30)  NOT NULL,
+    username    VARCHAR(30)  NOT NULL,
     password    VARCHAR(20)  NOT NULL,
     created_at  DATETIME     NOT NULL,
     modified_at DATETIME     NOT NULL
@@ -289,6 +289,44 @@ ___
     - [X] 전체 할일 조회 메서드
         - 이메일 또는 유저명이 입력으로 주어짐.
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
+
+___
+
+## Lv 4. 로그인(인증)
+
+### Requirement
+
+- Cookie/Session을 활용해 로그인 기능을 구현
+    - Filter를 활용해 인증 처리
+    - @Configuration을 활용해 필터 등록
+- 조건
+    - 이메일과 비밀번호를 활용해 로그인 기능을 구현
+    - 회원가입, 로그인 요청은 인증 처리에서 제외
+- 예외 처리
+    - 로그인시 이메일과 비밀번호가 일치하지 않을 경우, 401 : UNAUTHORIZED를 반환
+
+#### Configuration
+
+- [ ] WebConfig
+    - [ ] loginFilter()
+        - 로그인용 필터 생성
+
+- [ ] LoginFilter
+    - [ ] doFilter()
+        - 로그인 필터 로직 수행
+
+- [ ] LoginController
+    - [ ] 유저 회원 가입
+        - email과 password가 데이터로 들어오면 loginService 통해 회원가입 성공 여부 반환
+    - [ ] 유저 로그인
+        - email과 password가 데이터로 들어오면 loginService 통해 로그인 성공 여부 반환
+
+- [ ] LoginService
+    - [ ] 유저 회원 가입
+        - email과 password가 데이터로 들어오면 userService 통해 DB에 회원 저장 요청 후 성공 여부 반환
+    - [ ] 유저 로그인
+        - email과 password가 데이터로 들어오면 userService 통해 회원이 일치하는지 확인 후 로그인 성공 여부 반환
+
 ___
 
 ## Commit Convention
