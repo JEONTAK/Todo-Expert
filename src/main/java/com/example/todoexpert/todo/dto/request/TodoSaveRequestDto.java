@@ -1,6 +1,5 @@
-package com.example.todoexpert.todo.dto;
+package com.example.todoexpert.todo.dto.request;
 
-import com.example.todoexpert.todo.entity.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
