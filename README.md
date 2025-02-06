@@ -31,6 +31,7 @@
     - [X] todo
         - [X] id : 할일 아이디 / BIGINT / (PK)
         - [X] user_id : 할일 작성 유저 아이디 / VARCHAR(30) / (FK)
+
         - [X] title : 할일 제목 / TEXT
         - [X] contents : 할일 내용 / TEXT
         - [X] created_at : 작성일 / DATETIME
