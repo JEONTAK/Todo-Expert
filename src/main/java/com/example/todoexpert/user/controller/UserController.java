@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v5")
+@RequestMapping("/api/v6")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping("/users/register")
-    public ResponseEntity<UserResponseDto> saveUser(@Valid  @RequestBody UserSaveRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserSaveRequestDto requestDto) {
         UserResponseDto responseDto = userService.saveUser(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }

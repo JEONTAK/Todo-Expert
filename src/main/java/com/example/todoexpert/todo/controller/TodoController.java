@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v5")
+@RequestMapping("/api/v6")
 @RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoResponseDto> saveTodo(@Valid  @RequestBody TodoSaveRequestDto requestDto) {
+    public ResponseEntity<TodoResponseDto> saveTodo(@Valid @RequestBody TodoSaveRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }

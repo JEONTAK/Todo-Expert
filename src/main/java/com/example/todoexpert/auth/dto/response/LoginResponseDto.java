@@ -1,4 +1,4 @@
-package com.example.todoexpert.login.dto.response;
+package com.example.todoexpert.auth.dto.response;
 
 import com.example.todoexpert.user.entity.User;
 import jakarta.servlet.http.HttpSession;

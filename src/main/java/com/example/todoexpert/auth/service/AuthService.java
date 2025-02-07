@@ -1,11 +1,12 @@
-package com.example.todoexpert.login.service;
+package com.example.todoexpert.auth.service;
 
+import com.example.todoexpert.util.config.PasswordEncoder;
 import com.example.todoexpert.util.exception.CustomExceptionHandler;
 import com.example.todoexpert.util.exception.ErrorCode;
-import com.example.todoexpert.login.dto.request.LoginRequestDto;
-import com.example.todoexpert.login.dto.request.LogoutRequestDto;
-import com.example.todoexpert.login.dto.response.LoginResponseDto;
-import com.example.todoexpert.login.dto.response.LogoutResponseDto;
+import com.example.todoexpert.auth.dto.request.LoginRequestDto;
+import com.example.todoexpert.auth.dto.request.LogoutRequestDto;
+import com.example.todoexpert.auth.dto.response.LoginResponseDto;
+import com.example.todoexpert.auth.dto.response.LogoutResponseDto;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,11 +19,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto login(LoginRequestDto request, HttpServletRequest httpRequest) {
         User findUser = userRepository.findByEmailOrElseThrow(request.getEmail());
 
-        if (!findUser.getPassword().equals(request.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), findUser.getPassword())) {
             throw new CustomExceptionHandler(ErrorCode.NOT_MATCH_PASSWORD);
         }
 
@@ -39,7 +41,7 @@ public class AuthService {
 
         if (session != null) {
             session.invalidate();
-        } else{
+        } else {
             throw new CustomExceptionHandler(ErrorCode.NOT_LOGIN);
         }
 

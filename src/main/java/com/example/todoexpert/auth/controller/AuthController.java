@@ -1,10 +1,10 @@
-package com.example.todoexpert.login.controller;
+package com.example.todoexpert.auth.controller;
 
-import com.example.todoexpert.login.dto.request.LoginRequestDto;
-import com.example.todoexpert.login.dto.request.LogoutRequestDto;
-import com.example.todoexpert.login.dto.response.LoginResponseDto;
-import com.example.todoexpert.login.dto.response.LogoutResponseDto;
-import com.example.todoexpert.login.service.AuthService;
+import com.example.todoexpert.auth.dto.request.LoginRequestDto;
+import com.example.todoexpert.auth.dto.request.LogoutRequestDto;
+import com.example.todoexpert.auth.dto.response.LoginResponseDto;
+import com.example.todoexpert.auth.dto.response.LogoutResponseDto;
+import com.example.todoexpert.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v5")
+@RequestMapping("/api/v6")
 @RequiredArgsConstructor
 public class AuthController {
 

@@ -31,10 +31,10 @@ public class User extends TimeStamped {
     @Column(nullable = false)
     private String password;
 
-    public User(UserSaveRequestDto requestDto) {
+    public User(UserSaveRequestDto requestDto, String encodedPassword) {
         this.email = requestDto.getEmail();
         this.username = requestDto.getUsername();
-        this.password = requestDto.getPassword();
+        this.password = encodedPassword;
     }
 
     public void updateUser(UserUpdateRequestDto requestDto) {

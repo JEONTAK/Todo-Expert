@@ -1,5 +1,6 @@
 package com.example.todoexpert.user.service;
 
+import com.example.todoexpert.util.config.PasswordEncoder;
 import com.example.todoexpert.util.exception.CustomExceptionHandler;
 import com.example.todoexpert.util.exception.ErrorCode;
 import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserResponseDto saveUser(UserSaveRequestDto requestDto) {
         User findUser = userRepository.findByEmail(requestDto.getEmail()).orElse(null);
@@ -26,8 +28,11 @@ public class UserService {
             throw new CustomExceptionHandler(ErrorCode.ALREADY_EXIST_USER);
         }
 
-        User user = new User(requestDto);
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+
+        User user = new User(requestDto, encodedPassword);
         userRepository.save(user);
+
         return UserResponseDto.toDto(user);
     }
 

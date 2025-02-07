@@ -31,6 +31,7 @@ public class GlobalExceptionHandler {
 
     private ResponseEntity<Map<String, Object>> getErrorResponse(ErrorCode errorCode, String message) {
         Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("status", HttpStatus.valueOf(errorCode.getStatus()));
         errorResponse.put("code", errorCode.getStatus());
         errorResponse.put("message", message);
 

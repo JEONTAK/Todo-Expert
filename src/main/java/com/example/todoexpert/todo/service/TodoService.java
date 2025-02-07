@@ -46,7 +46,7 @@ public class TodoService {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findByIdOrElseThrow(id);
 
-        if(!findTodo.getUser().equals(findUser)){
+        if (!findTodo.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_TODO);
         }
 
@@ -59,7 +59,7 @@ public class TodoService {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findByIdOrElseThrow(id);
 
-        if(!findTodo.getUser().equals(findUser)){
+        if (!findTodo.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_DELETE_TODO);
         }
 
