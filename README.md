@@ -371,76 +371,77 @@ ___
 #### Configuration
 
 - Exception
-  - [ ] CustomExceptionHandler : 직접 만든 에러코드로 Exception 사용하기 위함
+    - [X] CustomExceptionHandler : 직접 만든 에러코드로 Exception 사용하기 위함
 
-  - [ ] ErrorCode : 직접 만든 에러코드 저장
-    - INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 잠시 후 다시 시도해 주세요.")
-    - NOT_LOGIN(401, "로그인 상태가 아닙니다.")
-    - ALREADY_LOGIN(401, "이미 로그인한 상태입니다.")
-    - NOT_MATCH_PASSWORD(401, "비밀번호가 일치하지 않습니다.")
-    - INVALID_USER_UPDATE_TODO(401, "할일은 작성자만 수정 가능합니다.")
-    - INVALID_USER_DELETE_TODO(401, "할일은 작성자만 삭제 가능합니다.")
-    - NOT_FOUND_TODO(404, "할일이 존재하지 않습니다.")
-    - ALREADY_EXIST_USER(400, "해당 이메일을 사용하는 유저가 이미 존재합니다.")
-    - PASSWORD_NOT_CORRESPOND_REQUIREMENT(400, "비밀번호가 요구 조건에 부합하지 않습니다.")
-    - INVALID_USER_UPDATE_USER(401, "유저 정보는 본인만 수정 가능합니다.")
-    - INVALID_USER_DELETE_USER(401, "유저 정보는 본인만 삭제 가능합니다.")
-    - NOT_FOUND_USER(404, "유저가 존재하지 않습니다.")
-    - DATA_BAD_REQUEST(400, "유저가 존재하지 않습니다.")
+    - [X] ErrorCode : 직접 만든 에러코드 저장
+        - INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 잠시 후 다시 시도해 주세요.")
+        - NOT_LOGIN(401, "로그인 상태가 아닙니다.")
+        - ALREADY_LOGIN(401, "이미 로그인한 상태입니다.")
+        - NOT_MATCH_PASSWORD(401, "비밀번호가 일치하지 않습니다.")
+        - INVALID_USER_UPDATE_TODO(401, "할일은 작성자만 수정 가능합니다.")
+        - INVALID_USER_DELETE_TODO(401, "할일은 작성자만 삭제 가능합니다.")
+        - NOT_FOUND_TODO(404, "할일이 존재하지 않습니다.")
+        - ALREADY_EXIST_USER(400, "해당 이메일을 사용하는 유저가 이미 존재합니다.")
+        - PASSWORD_NOT_CORRESPOND_REQUIREMENT(400, "비밀번호가 요구 조건에 부합하지 않습니다.")
+        - INVALID_USER_UPDATE_USER(401, "유저 정보는 본인만 수정 가능합니다.")
+        - INVALID_USER_DELETE_USER(401, "유저 정보는 본인만 삭제 가능합니다.")
+        - NOT_FOUND_USER(404, "유저가 존재하지 않습니다.")
+        - DATA_BAD_REQUEST(400, 해당 에러 넣어 반환)
 
-  - [ ] GlobalExceptionHandler : customExcepion 및 serverException 처리하기 위함
-    - [ ] CustomException 처리 : getStatus, getMessage로 적절히 처리
-    - [ ] MethodArgumentNotValidException 처리 : 에러 가지고와 DATA_BAD_REQUEST 반환
+    - [X] GlobalExceptionHandler : customExcepion 및 serverException 처리하기 위함
+        - [X] CustomException 처리 : getStatus, getMessage로 적절히 처리
+        - [X] MethodArgumentNotValidException 처리 : 에러 가지고와 DATA_BAD_REQUEST 반환
 
 - AuthFilter
-    - [ ] URI가 WHILELIST에 포함되어 있지 않고, 세션이 존재하지 않을 경우 : NOT_LOGIN 반환
-    - [ ] 회원가입시, 이미 로그인 상태로 회원가입을 할 경우 : ALREADY_LOGIN 반환
+    - [X] URI가 WHILELIST에 포함되어 있지 않고, 세션이 존재하지 않을 경우 : NOT_LOGIN 반환
+    - [X] 회원가입시, 이미 로그인 상태로 회원가입을 할 경우 : ALREADY_LOGIN 반환
 
 - LoginRequestDto
-    - [ ] email : @NotBlank @Size(40) : 40자 이내
-    - [ ] password : @NotBlank @Size(20) : 20자 이내
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] password : @NotBlank @Size(20)
 
 - LogoutRequestDto
-    - [ ] email : @NotBlank
+    - [X] email : @NotBlank @Email @Size(40) 
 
 - AuthService
-    - [ ] 로그인 시, 입력받은 email에 해당하는 유저의 비밀번호가 입력받은 비밀번호와 일치하지 않을 경우 : NOT_MATCH_PASSWORD 반환
-    - [ ] 로그아웃 시 , 로그인하지 않은 상태로 로그아웃 시도할 경우 : NOT_LOGIN 반환
+    - [X] 로그인 시, 입력받은 email에 해당하는 유저의 비밀번호가 입력받은 비밀번호와 일치하지 않을 경우 : NOT_MATCH_PASSWORD 반환
+    - [X] 로그아웃 시 , 로그인하지 않은 상태로 로그아웃 시도할 경우 : NOT_LOGIN 반환
 
 - TodoSaveRequestDto
-    - [ ] title : @NotBlank @Size(20) : 20자 이내
-    - [ ] contents : @NotBlank @Size(200) : 200자 이내
-    - [ ] user : @NotNull
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] title : @NotBlank @Size(20)
+    - [X] contents : @NotBlank @Size(200)
 
 - TodoUpdateRequestDto
-    - [ ] title : @NotBlank @Size(20) : 20자 이내
-    - [ ] contents : @NotBlank @Size(200) : 200자 이내
+    - [X] title : @NotBlank @Size(20)
+    - [X] contents : @NotBlank @Size(200)
 
 - TodoService
-    - [ ] 수정시 수정할 할일의 작성자와, 요청한 작성자가 같지 않을 경우 : INVALID_USER_UPDATE_TODO 반환
-    - [ ] 삭제시 삭제할 할일의 작성자와, 요청한 작성자가 같지 않을 경우 : INVALID_USER_DELETE_TODO 반환
+    - [X] 수정시 수정할 할일의 작성자와, 요청한 작성자가 같지 않을 경우 : INVALID_USER_UPDATE_TODO 반환
+    - [X] 삭제시 삭제할 할일의 작성자와, 요청한 작성자가 같지 않을 경우 : INVALID_USER_DELETE_TODO 반환
 
 - TodoRepository
-  - [ ] 할일 검색시 해당 할일이 존재 하지 않을 경우 : NOT_FOUND_TODO 반환
+    - [X] 할일 검색시 해당 할일이 존재 하지 않을 경우 : NOT_FOUND_TODO 반환
 
 - UserSaveRequestDto
-    - [ ] email : @NotBlank, @Email(이메일 형식) @Size(40) : 40자 이내
-    - [ ] username : @NotBlank @Size(20) : 20자 이내
-    - [ ] password : @NotBlank @Size(20) : 20자 이내
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] username : @NotBlank @Size(20)
+    - [X] password : @NotBlank @Size(20) @Pattern
 
 - UserUpdateRequestDto
-    - [ ] username : @NotBlank @Size(20) : 20자 이내
-    - [ ] password : @NotBlank @Size(20) : 20자 이내
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] username : @NotBlank @Size(20)
+    - [X] password : @NotBlank @Size(20) @Pattern
 
 - UserService
-  - [ ] : 유저 등록 시, 이미 존재하는 이메일이 있을 경우 : ALREADY_EXIST_USER 반환
-  - [ ] : 유저 등록 시, 비밀번호가 조건에 일치하지 않을 경우 : PASSWORD_NOT_CORRESPOND_REQUIREMENT
-  - [ ] : 유저 수정 시, 수정할 유저와 요청한 유저가 같지 않을 경우 : INVALID_USER_UPDATE_USER 반환
-  - [ ] : 유저 삭제 시, 삭제할 유저와 요청한 유저가 같지 않을 경우 : INVALID_USER_DELETE_USER 반환
+    - [X] : 유저 등록 시, 이미 존재하는 이메일이 있을 경우 : ALREADY_EXIST_USER 반환
+    - [X] : 유저 등록 시, 비밀번호가 조건에 일치하지 않을 경우 : PASSWORD_NOT_CORRESPOND_REQUIREMENT
+    - [X] : 유저 수정 시, 수정할 유저와 요청한 유저가 같지 않을 경우 : INVALID_USER_UPDATE_USER 반환
+    - [X] : 유저 삭제 시, 삭제할 유저와 요청한 유저가 같지 않을 경우 : INVALID_USER_DELETE_USER 반환
 
 - UserRepository
-  - [ ] : 유저 Id로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
-  - [ ] : 유저 email로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
+    - [X] : 유저 Id로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
+    - [X] : 유저 email로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
 
 ___
 

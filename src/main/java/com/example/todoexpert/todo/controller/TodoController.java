@@ -1,14 +1,15 @@
 package com.example.todoexpert.todo.controller;
 
+import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoResponseDto;
 import com.example.todoexpert.todo.service.TodoService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v4")
+@RequestMapping("/api/v5")
 @RequiredArgsConstructor
 public class TodoController {
 
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoResponseDto> saveTodo(@RequestBody TodoSaveRequestDto requestDto) {
+    public ResponseEntity<TodoResponseDto> saveTodo(@Valid  @RequestBody TodoSaveRequestDto requestDto) {
         TodoResponseDto responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -46,14 +47,14 @@ public class TodoController {
 
     @PutMapping("/todos/{id}")
     public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long id,
-                                                      @RequestBody TodoUpdateRequestDto requestDto) {
+                                                      @Valid @RequestBody TodoUpdateRequestDto requestDto) {
         TodoResponseDto updateDto = todoService.updateTodo(id, requestDto);
         return new ResponseEntity<>(updateDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/todos/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable Long id) {
-        todoService.deleteTodo(id);
+    @PostMapping("/todos/delete/{id}")
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id, @Valid @RequestBody TodoDeleteRequestDto requestDto) {
+        todoService.deleteTodo(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

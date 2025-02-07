@@ -1,5 +1,7 @@
 package com.example.todoexpert.login.service;
 
+import com.example.todoexpert.exception.CustomExceptionHandler;
+import com.example.todoexpert.exception.ErrorCode;
 import com.example.todoexpert.login.dto.request.LoginRequestDto;
 import com.example.todoexpert.login.dto.request.LogoutRequestDto;
 import com.example.todoexpert.login.dto.response.LoginResponseDto;
@@ -9,9 +11,7 @@ import com.example.todoexpert.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +23,7 @@ public class AuthService {
         User findUser = userRepository.findByEmailOrElseThrow(request.getEmail());
 
         if (!findUser.getPassword().equals(request.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 일치하지 않습니다.");
+            throw new CustomExceptionHandler(ErrorCode.NOT_MATCH_PASSWORD);
         }
 
         HttpSession session = httpRequest.getSession();
@@ -40,7 +40,7 @@ public class AuthService {
         if (session != null) {
             session.invalidate();
         } else{
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 한 상태가 아닙니다.");
+            throw new CustomExceptionHandler(ErrorCode.NOT_LOGIN);
         }
 
         return new LogoutResponseDto(findUser);

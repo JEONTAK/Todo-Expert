@@ -1,5 +1,8 @@
 package com.example.todoexpert.todo.service;
 
+import com.example.todoexpert.exception.CustomExceptionHandler;
+import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoResponseDto;
@@ -40,14 +43,26 @@ public class TodoService {
 
     @Transactional
     public TodoResponseDto updateTodo(Long id, TodoUpdateRequestDto requestDto) {
+        User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findByIdOrElseThrow(id);
+
+        if(!findTodo.getUser().equals(findUser)){
+            throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_TODO);
+        }
 
         findTodo.updateTodo(requestDto);
         return TodoResponseDto.toDto(findTodo);
     }
 
-    public void deleteTodo(Long id) {
+    @Transactional
+    public void deleteTodo(Long id, TodoDeleteRequestDto requestDto) {
+        User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findByIdOrElseThrow(id);
+
+        if(!findTodo.getUser().equals(findUser)){
+            throw new CustomExceptionHandler(ErrorCode.INVALID_USER_DELETE_TODO);
+        }
+
         todoRepository.delete(findTodo);
     }
 }

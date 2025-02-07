@@ -1,5 +1,8 @@
 package com.example.todoexpert.user.service;
 
+import com.example.todoexpert.exception.CustomExceptionHandler;
+import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
 import com.example.todoexpert.user.dto.request.UserSaveRequestDto;
 import com.example.todoexpert.user.dto.request.UserUpdateRequestDto;
 import com.example.todoexpert.user.dto.response.UserResponseDto;
@@ -17,6 +20,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserResponseDto saveUser(UserSaveRequestDto requestDto) {
+        User findUser = userRepository.findByEmail(requestDto.getEmail()).orElse(null);
+
+        if (findUser != null) {
+            throw new CustomExceptionHandler(ErrorCode.ALREADY_EXIST_USER);
+        }
+
         User user = new User(requestDto);
         userRepository.save(user);
         return UserResponseDto.toDto(user);
@@ -41,12 +50,23 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(Long id, UserUpdateRequestDto requestDto) {
         User findUser = userRepository.findByIdOrElseThrow(id);
+
+        if (!findUser.getEmail().equals(requestDto.getEmail())) {
+            throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_USER);
+        }
+
         findUser.updateUser(requestDto);
         return UserResponseDto.toDto(findUser);
     }
 
-    public void deleteUser(Long id) {
+    @Transactional
+    public void deleteUser(Long id, UserDeleteRequestDto requestDto) {
         User findUser = userRepository.findByIdOrElseThrow(id);
+
+        if (!findUser.getEmail().equals(requestDto.getEmail())) {
+            throw new CustomExceptionHandler(ErrorCode.INVALID_USER_DELETE_USER);
+        }
+
         userRepository.delete(findUser);
     }
 }
