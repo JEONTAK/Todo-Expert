@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v3")
+@RequestMapping("/api/v4")
 @RequiredArgsConstructor
 public class TodoController {
 

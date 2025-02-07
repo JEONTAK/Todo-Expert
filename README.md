@@ -68,6 +68,13 @@
 |   유저 수정   | **PUT**     | `/users/{id}` | Path : id  | { "email": string, "username": string, "password": string } | { "id": long, "email": string, "username": string, "createdAt": string, "updatedAt": string }         | `200 OK`      |
 |   유저 삭제   | **DELETE**  | `/users/{id}` | Path : id  | NONE                                                        | NONE                                                                                                  | `200 OK`      |
 
+**login**
+
+|  기능   | HTTP Method |      URL       | Parameters | Request Body                            | Response                                                                                                                                                    | HTTP Status |
+|:-----:|-------------|:--------------:|------------|-----------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|
+|  로그인  | **POST**    | `/auth/login`  | NONE       | { "email": string, "password": string } | { "id": long, "email": string, "username": string, "sessionId": string, "getMaxInActiveInterval": integer, "creationTime": long, "lastAccessedTime": long } | `200 OK`    |
+| 로그 아웃 | **POST**    | `/auth/logout` | NONE       | { "email": string }                     | List 형태 { "id": long, "email": string, "username": string }                                                                                                 | `200 OK`    |
+
 #### ERD 작성
 
 **Lv1**
@@ -307,25 +314,50 @@ ___
 
 #### Configuration
 
-- [ ] WebConfig
-    - [ ] loginFilter()
+- [X] WebConfig
+    - [X] loginFilter()
         - 로그인용 필터 생성
+            
 
-- [ ] LoginFilter
-    - [ ] doFilter()
+- [X] AuthFilter
+    - [X] doFilter()
         - 로그인 필터 로직 수행
+          - login, register, logout이 아닐 경우, 로그인 상태 확인
+          - 이미 로그인한 상태에서 register가 들어올 경우, BAD_REQUEST 반환
 
-- [ ] LoginController
-    - [ ] 유저 회원 가입
-        - email과 password가 데이터로 들어오면 loginService 통해 회원가입 성공 여부 반환
-    - [ ] 유저 로그인
-        - email과 password가 데이터로 들어오면 loginService 통해 로그인 성공 여부 반환
+- [X] LoginRequestDto
+    - 로그인 요청시의 데이터 담기 위함
+    - email, password
+- [X] LogoutRequestDto
+    - 로그아웃 요청시의 데이터 담기 위함
+    - email
+- [X] LoginResponseDto
+    - 로그인 응답시의 데이터 담기 위함
+    - id, email, username, sessionId, 세션 만료 시간, 생성시간, 마지막 접속 시간
+- [X] LogoutResponseDto
+    - 로그아웃 응답시의 데이터 담기 위함
+    - id, email, username
 
-- [ ] LoginService
-    - [ ] 유저 회원 가입
-        - email과 password가 데이터로 들어오면 userService 통해 DB에 회원 저장 요청 후 성공 여부 반환
-    - [ ] 유저 로그인
-        - email과 password가 데이터로 들어오면 userService 통해 회원이 일치하는지 확인 후 로그인 성공 여부 반환
+- [X] AuthController
+    - [X] 유저 로그인
+        - email과 password가 데이터로 들어오면 authService 통해 로그인 성공 여부 반환
+    - [X] 유저 로그 아웃
+        - email 과 HttpServletRequest가 데이터로 들어오면, authService 통해 로그 아웃 후 로그 아웃 한 유저 데이터 반환
+
+- [X] AuthService
+    - [X] 유저 로그인
+        - userRepository의 findByEmail 통해 email에 맞는 유저를 가져옴
+        - 만약 비밀번호가 일치하지 않는다면, UNAUTHORIZED 에러 보냄
+        - 일치한다면, session에 user 데이터를 담음
+        - 유저와 세션 정보를 dto를 통해 반환
+    - [X] 유저 로그 아웃
+        - Email 데이터가 들어오면 먼저 findByEmail을 통해 유저를 찾음
+        - HttpServletRequest를 통해 session 정보를 받아옴
+        - 만약 session이 null이 아니라면
+            - invalidate 시킴
+        - null이라면, 로그인 한 상태가 아니므로
+            - BAD_REQUEST 출력
+        - dto를 통해 유저 정보 반환
 
 ___
 
