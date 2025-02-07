@@ -1,7 +1,7 @@
 package com.example.todoexpert.user.service;
 
-import com.example.todoexpert.exception.CustomExceptionHandler;
-import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.util.exception.CustomExceptionHandler;
+import com.example.todoexpert.util.exception.ErrorCode;
 import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
 import com.example.todoexpert.user.dto.request.UserSaveRequestDto;
 import com.example.todoexpert.user.dto.request.UserUpdateRequestDto;

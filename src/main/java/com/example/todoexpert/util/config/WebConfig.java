@@ -1,6 +1,6 @@
-package com.example.todoexpert.config;
+package com.example.todoexpert.util.config;
 
-import com.example.todoexpert.filter.AuthFilter;
+import com.example.todoexpert.util.filter.AuthFilter;
 import jakarta.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

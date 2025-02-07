@@ -1,4 +1,4 @@
-package com.example.todoexpert.exception;
+package com.example.todoexpert.util.exception;
 
 import java.util.HashMap;
 import java.util.Map;

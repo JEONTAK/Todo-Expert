@@ -1,7 +1,7 @@
 package com.example.todoexpert.user.repository;
 
-import com.example.todoexpert.exception.CustomExceptionHandler;
-import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.util.exception.CustomExceptionHandler;
+import com.example.todoexpert.util.exception.ErrorCode;
 import com.example.todoexpert.user.entity.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

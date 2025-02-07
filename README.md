@@ -445,6 +445,28 @@ ___
 
 ___
 
+## Lv 6. 비밀번호 암호화
+
+### Requirement
+
+- 비밀번호 필드에 들어가는 비밀번호를 암호화
+- 암호화를 위한 PasswordEncoder를 직접 만들어 사용
+
+#### Configuration
+
+- [ ] PasswordEncoder
+  - [ ] encode(password)
+    - 입력 받은 비밀번호를 암호화 한후 String 타입으로 반환
+  - [ ] matches(rawPassword, encodedPassword)
+    - 입력 받은 비밀번호가 DB에 저장되어 있는 비밀번호와 일치하는 지 확인 후 T or F 반환
+
+- [ ] AuthService
+  - [ ] 로그인 시, 비밀번호가 일치하는지 mathces 사용하여 확인
+
+- [ ] UserService
+  - [ ] 회원가입 시, 비밀번호를 encode 하여 저장
+___
+
 ## Commit Convention
 
 ### 형식

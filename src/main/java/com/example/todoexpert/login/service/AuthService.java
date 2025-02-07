@@ -1,7 +1,7 @@
 package com.example.todoexpert.login.service;
 
-import com.example.todoexpert.exception.CustomExceptionHandler;
-import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.util.exception.CustomExceptionHandler;
+import com.example.todoexpert.util.exception.ErrorCode;
 import com.example.todoexpert.login.dto.request.LoginRequestDto;
 import com.example.todoexpert.login.dto.request.LogoutRequestDto;
 import com.example.todoexpert.login.dto.response.LoginResponseDto;

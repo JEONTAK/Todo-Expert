@@ -1,7 +1,7 @@
-package com.example.todoexpert.filter;
+package com.example.todoexpert.util.filter;
 
-import com.example.todoexpert.exception.CustomExceptionHandler;
-import com.example.todoexpert.exception.ErrorCode;
+import com.example.todoexpert.util.exception.CustomExceptionHandler;
+import com.example.todoexpert.util.exception.ErrorCode;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

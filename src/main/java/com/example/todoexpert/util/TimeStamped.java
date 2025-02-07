@@ -1,4 +1,4 @@
-package com.example.todoexpert.timestamped;
+package com.example.todoexpert.util;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

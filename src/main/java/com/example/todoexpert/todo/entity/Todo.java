@@ -1,6 +1,6 @@
 package com.example.todoexpert.todo.entity;
 
-import com.example.todoexpert.timestamped.TimeStamped;
+import com.example.todoexpert.util.TimeStamped;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
 import com.example.todoexpert.user.entity.User;
 import jakarta.persistence.Column;
