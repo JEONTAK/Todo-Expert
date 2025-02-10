@@ -5,10 +5,12 @@ import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
+import com.example.todoexpert.todo.dto.response.TodoPageResponseDto;
 import com.example.todoexpert.todo.service.TodoService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,13 @@ public class TodoController {
     public ResponseEntity<List<TodoFindResponseDto>> findAll(@RequestParam(required = false) String username,
                                                              @RequestParam(required = false) String userEmail) {
         List<TodoFindResponseDto> responseDtoList = todoService.findAll(username, userEmail);
+        return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/todos/pages")
+    public ResponseEntity<Page<TodoPageResponseDto>> findAllByPage(@RequestParam(defaultValue = "0") Integer pageNumber,
+                                                                   @RequestParam(defaultValue = "10") Integer pageSize) {
+        Page<TodoPageResponseDto> responseDtoList = todoService.findAllByPage(pageNumber, pageSize);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 

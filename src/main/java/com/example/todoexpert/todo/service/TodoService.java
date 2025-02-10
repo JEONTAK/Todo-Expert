@@ -7,6 +7,7 @@ import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
+import com.example.todoexpert.todo.dto.response.TodoPageResponseDto;
 import com.example.todoexpert.todo.entity.Todo;
 import com.example.todoexpert.todo.repository.TodoRepository;
 import com.example.todoexpert.user.entity.User;
@@ -15,6 +16,11 @@ import com.example.todoexpert.util.exception.CustomExceptionHandler;
 import com.example.todoexpert.util.exception.ErrorCode;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TodoService {
 
+    private final String MODIFIED_DESC= "modifiedAt";
     private final TodoRepository todoRepository;
     private final UserService userService;
     private final CommentRepository commentRepository;
@@ -42,6 +49,12 @@ public class TodoService {
                         .toList()))
                 .toList();
 
+    }
+
+    public Page<TodoPageResponseDto> findAllByPage(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Direction.DESC, MODIFIED_DESC));
+        return todoRepository.findAll(pageable)
+                .map(todo -> TodoPageResponseDto.toDto(todo, commentRepository.findByTodoId(todo.getId()).size()));
     }
 
     public TodoFindResponseDto findByIdWithComment(Long id) {
@@ -81,6 +94,5 @@ public class TodoService {
 
         todoRepository.delete(findTodo);
     }
-
 
 }

@@ -50,14 +50,14 @@
 
 **todo**
 
-|      기능       | HTTP Method |      URL      | Parameters                                     | Request Body                                                                     | Response                                                                                                                                                                     | HTTP Status   |
-|:-------------:|-------------|:-------------:|------------------------------------------------|----------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-|   할일 생성(등록)   | **POST**    |   `/todos`    | NONE                                           | { "title" : string, "contents" : string, "email" : String, "password" : string } | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "createdAt" : string, "updatedAt" : string }                                    | `201 CREATED` |
-|   전체 할일 조회    | **GET**     |   `/todos`    | Query : userName(Optional)&userEmail(Optional) | NONE                                                                             | List 형태 { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
-| 전체 할일 조회(페이징) | **GET**     |   `/todos`    | Query : pageNumber&pageSize                    | NONE                                                                             | Page 형태 { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
-|   단건 할일 조회    | **GET**     | `/todos/{id}` | Path : id                                      | NONE                                                                             | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string }         | `200 OK`      |
-|     할일 수정     | **PUT**     | `/todos/{id}` | Path : id                                      | { "title" : string, "contents" : string, "email" : string, "password" : string } | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "createdAt" : string, "updatedAt" : string }                                    | `200 OK`      |
-|     할일 삭제     | **DELETE**  | `/todos/{id}` | Path : id                                      | NONE                                                                             | NONE                                                                                                                                                                         | `200 OK`      |
+|      기능       | HTTP Method |      URL       | Parameters                                     | Request Body                                                                     | Response                                                                                                                                                                     | HTTP Status   |
+|:-------------:|-------------|:--------------:|------------------------------------------------|----------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+|   할일 생성(등록)   | **POST**    |    `/todos`    | NONE                                           | { "title" : string, "contents" : string, "email" : String, "password" : string } | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "createdAt" : string, "updatedAt" : string }                                    | `201 CREATED` |
+|   전체 할일 조회    | **GET**     |    `/todos`    | Query : userName(Optional)&userEmail(Optional) | NONE                                                                             | List 형태 { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
+| 전체 할일 조회(페이징) | **GET**     | `/todos/pages` | Query : pageNumber&pageSize                    | NONE                                                                             | Page 형태 { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
+|   단건 할일 조회    | **GET**     | `/todos/{id}`  | Path : id                                      | NONE                                                                             | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "comment" : List<Comment>, "createdAt" : string, "updatedAt" : string }         | `200 OK`      |
+|     할일 수정     | **PUT**     | `/todos/{id}`  | Path : id                                      | { "title" : string, "contents" : string, "email" : string, "password" : string } | { "id" : long, "title" : string, "contents" : string, "email" : string, "username" : string, "createdAt" : string, "updatedAt" : string }                                    | `200 OK`      |
+|     할일 삭제     | **DELETE**  | `/todos/{id}`  | Path : id                                      | NONE                                                                             | NONE                                                                                                                                                                         | `200 OK`      |
 
 **user**
 
@@ -618,8 +618,17 @@ ___
 
 #### Configuration
 
+
+- [X] TodoPageResponseDto
+  - title
+  - contents
+  - username
+  - commentsCount
+  - createdAt
+  - modifiedAt
+
 - Todo Controller 수정
-    - [ ] 전체 할일 조회(페이징) 메서드 구현
+    - [X] 전체 할일 조회(페이징) 메서드 구현
         - GetMapping 사용
         - 쿼리 파라미터를 통해 페이지 번호와 페이지 크기를 가져옴
             - default 페이지 번호 : 0
@@ -627,7 +636,7 @@ ___
         - 할일 Service 통해 조건에 맞는 할일을 Page로 가져와 responseDto 형식으로 반환
 
 - Todo Service 수정
-    - [ ] 전체 할일 조회 메서드
+    - [X] 전체 할일 조회 메서드
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
 
 ___
