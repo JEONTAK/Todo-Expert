@@ -1,7 +1,8 @@
-package com.example.todoexpert.todo.entity;
+package com.example.todoexpert.comment.entity;
 
-import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentSaveRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentUpdateRequestDto;
+import com.example.todoexpert.todo.entity.Todo;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.util.TimeStamped;
 import jakarta.persistence.Column;
@@ -16,33 +17,34 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "todo")
+@Table(name = "comment")
 @Getter
 @NoArgsConstructor
-public class Todo extends TimeStamped {
+public class Comment extends TimeStamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, columnDefinition = "longtext")
-    private String title;
-
-    @Column(nullable = false, columnDefinition = "longtext")
     private String contents;
+
+    @ManyToOne
+    @JoinColumn(name = "todo_id")
+    private Todo todo;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Todo(User user, TodoSaveRequestDto requestDto) {
-        this.user = user;
-        this.title = requestDto.getTitle();
+
+    public Comment(User findUser, Todo findTodo, CommentSaveRequestDto requestDto) {
         this.contents = requestDto.getContents();
+        this.user = findUser;
+        this.todo = findTodo;
     }
 
-    public void updateTodo(TodoUpdateRequestDto requestDto) {
-        this.title = requestDto.getTitle();
+    public void updateComment(CommentUpdateRequestDto requestDto) {
         this.contents = requestDto.getContents();
     }
 }

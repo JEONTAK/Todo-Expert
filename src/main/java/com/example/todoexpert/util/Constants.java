@@ -18,6 +18,11 @@ public abstract class Constants {
     public static final String TITLE_SIZE = "제목은 최대 20자 입니다.";
     public static final String TITLE_NOT_NULL = "제목은 필수 값입니다.";
 
-    public static final String CONTENTS_SIZE = "내용은 최대 200자 입니다.";
+    public static final String TODO_CONTENTS_SIZE = "내용은 최대 200자 입니다.";
     public static final String CONTENTS_NOT_NULL = "내용은 필수 값입니다.";
+
+    public static final String TODO_ID_NOT_NULL = "할일은 필수 값입니다.";
+    public static final String COMMENT_CONTENTS_SIZE = "내용은 최대 50자 입니다.";
+
+
 }

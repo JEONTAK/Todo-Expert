@@ -43,9 +43,8 @@ public class UserService {
                 .toList();
     }
 
-    public UserResponseDto findById(Long id) {
-        User findUser = userRepository.findByIdOrElseThrow(id);
-        return UserResponseDto.toDto(findUser);
+    public User findById(Long id) {
+        return userRepository.findByIdOrElseThrow(id);
     }
 
     public User findByEmail(String email) {

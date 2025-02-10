@@ -77,14 +77,13 @@
 
 **comments**
 
-|     기능      | HTTP Method |          URL           | Parameters                                     | Request Body                                                  | Response                                                                                                                                            | HTTP Status   |
-|:-----------:|-------------|:----------------------:|------------------------------------------------|---------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
-|  댓글 생성(등록)  | **POST**    |      `/comments`       | NONE                                           | { "todo_id" : string, "email" : string, "contents" : string } | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `201 CREATED` |
-|  전체 댓글 조회   | **GET**     |      `/comments`       | Query : userName(Optional)&userEmail(Optional) | NONE                                                          | List 형태의  { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
-| 특정 할일 댓글 조회 | **GET**     | `/comments/todos/{id}` | Path : id                                      | NONE                                                          | List 형태의  { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
-|  단건 댓글 조회   | **GET**     |    `/comments/{id}`    | Path : id                                      | NONE                                                          | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `200 OK`      |
-|    댓글 수정    | **PUT**     |    `/comments/{id}`    | Path : id                                      | { "todo_id" : string, "email" : string, "contents" : string } | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `200 OK`      |
-|    댓글 삭제    | **DELETE**  |    `/comments/{id}`    | Path : id                                      | NONE                                                          | NONE                                                                                                                                                | `200 OK`      |
+|     기능      | HTTP Method |          URL           | Parameters                                                      | Request Body                                                  | Response                                                                                                                                            | HTTP Status   |
+|:-----------:|-------------|:----------------------:|-----------------------------------------------------------------|---------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------|---------------|
+|  댓글 생성(등록)  | **POST**    |      `/comments`       | NONE                                                            | { "todo_id" : string, "email" : string, "contents" : string } | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `201 CREATED` |
+|  전체 댓글 조회   | **GET**     |      `/comments`       | Query : userName(Optional)&userEmail(Optional)&todoId(Optional) | NONE                                                          | List 형태의  { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string } | `200 OK`      |
+|  단건 댓글 조회   | **GET**     |    `/comments/{id}`    | Path : id                                                       | NONE                                                          | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `200 OK`      |
+|    댓글 수정    | **PUT**     |    `/comments/{id}`    | Path : id                                                       | { "todo_id" : string, "email" : string, "contents" : string } | { "id" : long, "title" : string, "email" : string, "username" : string, "contents" : string, "createdAt" : string, "updatedAt" : string }           | `200 OK`      |
+|    댓글 삭제    | **DELETE**  |    `/comments/{id}`    | Path : id                                                       | NONE                                                          | NONE                                                                                                                                                | `200 OK`      |
 
 #### ERD 작성
 
@@ -510,7 +509,7 @@ ___
 #### Configuration
 
 - Comment
-    - [ ] Field
+    - [X] Field
         - id
         - contents
         - createdAt
@@ -519,76 +518,70 @@ ___
         - User (JoinColumn = "user_id")
 
 - CommentSaveRequestDto
-    - [ ] todo_id : @NotNull
-    - [ ] email : @NotBlank @Email @Size(40)
-    - [ ] contents : @NotBlank @Size(50)
+    - [X] todo_id : @NotNull
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] contents : @NotBlank @Size(50)
 
 - CommentUpdateRequestDto
-    - [ ] todo_id : @NotNull
-    - [ ] email : @NotBlank @Email @Size(40)
-    - [ ] contents : @NotBlank @Size(50)
+    - [X] todo_id : @NotNull
+    - [X] email : @NotBlank @Email @Size(40)
+    - [X] contents : @NotBlank @Size(50)
 
 - CommentResponseDto
-    - [ ] "id" : long
-    - [ ] "title" : string
-    - [ ] "email" : string
-    - [ ] "username" : string
-    - [ ] "contents" : string
-    - [ ] "createdAt" : string
-    - [ ] "updatedAt" : string
+    - [X] "id" : long
+    - [X] "title" : string
+    - [X] "email" : string
+    - [X] "username" : string
+    - [X] "contents" : string
+    - [X] "createdAt" : string
+    - [X] "updatedAt" : string
 
 - 댓글 Controller
-    - [ ] 댓글 생성 메서드
+    - [X] 댓글 생성 메서드
         - PostMapping 사용
         - ResponseBody 통해 requestDto 형식 데이터 받음
         - 댓글 Service 통해 등록 후 responseDto 형식으로 반환
-    - [ ] 전체 댓글 조회 메서드
+    - [X] 전체 댓글 조회 메서드
         - GetMapping 사용
-        - RequestParam을 통해 작성자명 또는 작성자 이메일 데이터 가져옴
+        - RequestParam을 통해 작성자명 또는 작성자 이메일 데이터 또는 할일 id값 가져옴
         - 댓글 Service 통해 조건에 맞는 댓글을 List로 가져와 responseDto 형식으로 반환
-    - [ ] 특정 할일 댓글 조회 메서드
-        - GetMapping 사용
-        - PathVariable통해 id 값 가져옴(할일 id)
-        - 댓글 Service 통해 조건에 맞는 댓글을 List로 가져와 responseDto 형식으로 반환
-    - [ ] 개별 댓글 조회 메서드
+    - [X] 개별 댓글 조회 메서드
         - GetMapping 사용
         - PathVariable통해 id 값 가져옴
         - 댓글 Service 통해 id값에 맞는 댓글 가져와 responseDto 형식으로 반환
-    - [ ] 개별 댓글 수정 메서드
+    - [X] 개별 댓글 수정 메서드
         - PutMapping 사용
         - PathVariable통해 id 값 가져옴
         - ResponseBody 통해 requestDto 형식 데이터 받음
         - 댓글 Service 통해 수정 후 수정된 댓글 responseDto 형식으로 반환
-    - [ ] 개별 댓글 삭제 메서드
+    - [X] 개별 댓글 삭제 메서드
         - DeleteMapping 사용
         - PathVariable통해 id 값 가져옴
         - 댓글 Service 통해 id값에 맞는 댓글 가져와 삭제
 
 - 댓글 Service
-    - [ ] 댓글 저장 메서드
+    - [X] 댓글 저장 메서드
         - 댓글 객체 생성
         - 이메일과 댓글을 작성할 할일 존재하는지 검사
         - 생성한 객체를 사용해 댓글 Repository에 저장 요청 후 반환 값 return (responseDto 형식)
-    - [ ] 전체 댓글 조회 메서드
+    - [X] 전체 댓글 조회 메서드
         - 들어온 조건을 사용해 댓글 Repository에 댓글 조회 요청 후 반환 값 return (responseDto 형식)
-    - [ ] 특정 할일 댓글 조회 메서드
+    - [X] 개별 댓글 조회 메서드
         - 들어온 id값을 사용해 댓글 Repository에 댓글 조회 요청 후 반환 값 return (responseDto 형식)
-    - [ ] 특정 댓글 조회 메서드
-        - 들어온 id값을 사용해 댓글 Repository에 댓글 조회 요청 후 반환 값 return (responseDto 형식)
-    - [ ] 댓글 수정 메서드
+    - [X] 댓글 수정 메서드
         - 댓글 작성자와 댓글 수정 요청자가 일치하는 지 검사
         - 들어온 id값 및 데이터를 활용해 Repository에 댓글 수정 요청 후 반환 값 return (responseDto 형식)
-    - [ ] 댓글 삭제 메서드
+    - [X] 댓글 삭제 메서드
         - 댓글 작성자와 댓글 삭제 요청자가 일치하는 지 검사
         - 들어온 id값 활용해 Repository에 댓글 삭제 요청
 
 - 댓글 Repository
-    - [ ] findByIdOrElseThrow
+    - [X] findByIdOrElseThrow
         - id값 통해 댓글 데이터 찾음
             - 만약 null일 경우 throw 통해 NOT_FOUND 응답
-    - [ ] findByFilters
-        - 유저 이름 또는 유저 이메일을 사용하여 해당 데이터에 맞는 댓글만 찾아 반환
-    - [ ] findByTodoId
+    - [X] findByFilters
+        - 유저 이름 또는 유저 이메일 또는 할일 ID를 사용하여 해당 데이터에 맞는 댓글만 찾아 반환
+    - [X] findByTodoId
         - TodoId 값 통해 특정 할일에 대한 댓글 데이터를 찾음
 
 - TodoFindResponseDto
@@ -602,11 +595,11 @@ ___
     - "updatedAt" : string
 
 - Todo Service 수정
-    - [ ] 전체 할일 조회 메서드
+    - [X] 전체 할일 조회 메서드
         - 유저 이름 또는 유저 이메일 값이 들어옴
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
             - 각 할일의 댓글들도 조회하여 dto에 List형식으로 추가 후 return
-    - [ ] 특정 할일 조회 메서드
+    - [X] 특정 할일 조회 메서드
         - 들어온 id값을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
             - 각 할일의 댓글들도 조회하여 dto에 List형식으로 추가 후 return
 

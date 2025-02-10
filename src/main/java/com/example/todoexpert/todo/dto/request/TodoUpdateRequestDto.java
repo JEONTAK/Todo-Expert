@@ -1,7 +1,7 @@
 package com.example.todoexpert.todo.dto.request;
 
 import static com.example.todoexpert.util.Constants.CONTENTS_NOT_NULL;
-import static com.example.todoexpert.util.Constants.CONTENTS_SIZE;
+import static com.example.todoexpert.util.Constants.TODO_CONTENTS_SIZE;
 import static com.example.todoexpert.util.Constants.EMAIL_SIZE;
 import static com.example.todoexpert.util.Constants.EMAIl_NOT_NULL;
 import static com.example.todoexpert.util.Constants.EMAIl_TYPE;
@@ -28,7 +28,7 @@ public class TodoUpdateRequestDto {
     private final String title;
 
     @NotBlank(message = CONTENTS_NOT_NULL)
-    @Size(max = 200, message = CONTENTS_SIZE)
+    @Size(max = 200, message = TODO_CONTENTS_SIZE)
     private final String contents;
 
 }

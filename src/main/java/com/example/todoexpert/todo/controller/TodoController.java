@@ -3,7 +3,8 @@ package com.example.todoexpert.todo.controller;
 import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
 import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
-import com.example.todoexpert.todo.dto.response.TodoResponseDto;
+import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
+import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
 import com.example.todoexpert.todo.service.TodoService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -27,28 +28,28 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoResponseDto> saveTodo(@Valid @RequestBody TodoSaveRequestDto requestDto) {
-        TodoResponseDto responseDto = todoService.saveTodo(requestDto);
+    public ResponseEntity<TodoCommonResponseDto> saveTodo(@Valid @RequestBody TodoSaveRequestDto requestDto) {
+        TodoCommonResponseDto responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoResponseDto>> findAll(@RequestParam(required = false) String username,
-                                                         @RequestParam(required = false) String userEmail) {
-        List<TodoResponseDto> responseDtoList = todoService.findAll(username, userEmail);
+    public ResponseEntity<List<TodoFindResponseDto>> findAll(@RequestParam(required = false) String username,
+                                                             @RequestParam(required = false) String userEmail) {
+        List<TodoFindResponseDto> responseDtoList = todoService.findAll(username, userEmail);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/todos/{id}")
-    public ResponseEntity<TodoResponseDto> findById(@PathVariable Long id) {
-        TodoResponseDto responseDto = todoService.findById(id);
+    public ResponseEntity<TodoFindResponseDto> findById(@PathVariable Long id) {
+        TodoFindResponseDto responseDto = todoService.findByIdWithComment(id);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PutMapping("/todos/{id}")
-    public ResponseEntity<TodoResponseDto> updateTodo(@PathVariable Long id,
-                                                      @Valid @RequestBody TodoUpdateRequestDto requestDto) {
-        TodoResponseDto updateDto = todoService.updateTodo(id, requestDto);
+    public ResponseEntity<TodoCommonResponseDto> updateTodo(@PathVariable Long id,
+                                                            @Valid @RequestBody TodoUpdateRequestDto requestDto) {
+        TodoCommonResponseDto updateDto = todoService.updateTodo(id, requestDto);
         return new ResponseEntity<>(updateDto, HttpStatus.OK);
     }
 
