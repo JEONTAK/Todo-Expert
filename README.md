@@ -27,6 +27,13 @@
         - [X] 유저 수정
         - [X] 유저 삭제
 
+    - [X] 댓글 API 설계
+        - [X] 댓글 생성(등록)
+        - [X] 전체 댓글 조회
+        - [X] 단건 댓글 조회
+        - [X] 댓글 수정
+        - [X] 댓글 삭제
+
 - [X] ERD 작성
     - [X] todo
         - [X] id : 할일 아이디 / BIGINT / (PK)
@@ -41,6 +48,14 @@
         - [X] username : 할일 작성 유저 이름 / VARCHAR(30)
         - [X] email : 유저 이메일 / VARCHAR(255)
         - [X] password : 유저 비밀번호 / VARCHAR(20)
+        - [X] created_at : 작성일 / DATETIME
+        - [X] modified_at : 수정일 / DATETIME
+
+    - [X] comment
+        - [X] id : 댓글 아이디 / BIGINT / (PK)
+        - [X] user_id : 작성자 유저 아이디 / BIGINT / (FK)
+        - [X] todo_id : 할일 아이디 / BIGINT / (FK)
+        - [X] contents : 댓글 내용 / TEXT
         - [X] created_at : 작성일 / DATETIME
         - [X] modified_at : 수정일 / DATETIME
 
@@ -662,62 +677,24 @@ ___
 - static factory method
     - [X] responseDto 사용시 new ResponseDto 사용보다는, static 메서드 생성하여 사용 권장
     - [X] responseDto의 생성자는 private로 관리
+
 ___
 
-## V3. 테스트 케이스 작성
+## V2. 리팩토링
 
 ### Requirement
 
-- 정상 케이스
+- Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
+- N + 1 문제 해결
+- FetchType LAZY로 설정
+- 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
 
-1. 유저 등록
-2. 유저 로그인
-3. 유저 로그아웃
-4. 전체 유저 조회
-5. 단건 유저 조회
-6. 유저 수정
-7. 유저 삭제
-8. 할일 등록
-9. 전체 할일 조회
-10. 전체 할일 조회 (Paging)
-11. 단건 할일 조회
-12. 할일 수정
-13. 할일 삭제
-14. 댓글 등록
-15. 전체 댓글 조회
-16. 단건 댓글 조회
-17. 댓글 수정
-18. 댓글 삭제
+#### Configuration
 
-- 예외 케이스
-
-1. 유저 등록
-    - email : null 또는 빈칸, 형식, 길이
-    - username : null 또는 빈칸
-    - password : null 또는 빈칸, 소문자 + 숫자 조합 확인
-2. 할일 등록
-    - email : null 또는 빈칸, 형식, 길이
-    - title : null 또는 빈칸, 길이
-    - contents : null 또는 빈칸, 길이
-3. 댓글 등록
-    - todoId : null
-    - email : null 또는 빈칸, 형식, 길이
-    - contents : null 또는 빈칸, 길이
-4. 유저 로그인 하지 않을 시
-    - 로그인, 회원 가입 제외한 다른 부분 접근 시 차단
-5. 유저 수정
-    - 다른 유저가 수정 요청시 예외 처리
-6. 할일 수정
-    - 다른 유저가 수정 요청시 예외 처리
-7. 댓글 수정
-    - 다른 할일, 다른 유저가 수정 요청시 예외 처리
-8. 유저 삭제
-    - 다른 유저가 삭제 요청시 예외 처리
-9. 할일 삭제
-    - 다른 유저가 삭제 요청시 예외 처리
-10. 댓글 삭제
-    - 다른 할일, 다른 유저가 삭제 요청시 예외 처리
-
+- [X] TodoController 및 TodoService에서 Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
+- [ ] N + 1 문제 해결
+- [ ] FetchType LAZY로 설정
+- [ ] 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
 ___
 
 ## Commit Convention
