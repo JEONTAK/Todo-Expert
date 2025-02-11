@@ -1,8 +1,7 @@
 package com.example.todoexpert.user.controller;
 
 import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
-import com.example.todoexpert.user.dto.request.UserSaveRequestDto;
-import com.example.todoexpert.user.dto.request.UserUpdateRequestDto;
+import com.example.todoexpert.user.dto.request.UserRequestDto;
 import com.example.todoexpert.user.dto.response.UserResponseDto;
 import com.example.todoexpert.user.service.UserService;
 import jakarta.validation.Valid;
@@ -26,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/register")
-    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserSaveRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserRequestDto requestDto) {
         UserResponseDto responseDto = userService.saveUser(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -39,13 +38,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
-        UserResponseDto responseDto = UserResponseDto.toDto(userService.findById(id));
+        UserResponseDto responseDto = UserResponseDto.of(userService.findById(id));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
-                                                      @Valid @RequestBody UserUpdateRequestDto requestDto) {
+                                                      @Valid @RequestBody UserRequestDto requestDto) {
         UserResponseDto responseDto = userService.updateUser(id, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

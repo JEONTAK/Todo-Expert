@@ -2,8 +2,7 @@ package com.example.todoexpert.comment.service;
 
 
 import com.example.todoexpert.comment.dto.request.CommentDeleteRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentSaveRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentUpdateRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentRequestDto;
 import com.example.todoexpert.comment.dto.response.CommentResponseDto;
 import com.example.todoexpert.comment.entity.Comment;
 import com.example.todoexpert.comment.repository.CommentRepository;
@@ -26,18 +25,18 @@ public class CommentService {
     private final UserService userService;
     private final TodoService todoService;
 
-    public CommentResponseDto saveComment(CommentSaveRequestDto requestDto) {
+    public CommentResponseDto saveComment(CommentRequestDto requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
-        Comment comment = new Comment(findUser, findTodo, requestDto);
+        Comment comment = Comment.toEntity(findUser, findTodo, requestDto);
         commentRepository.save(comment);
-        return CommentResponseDto.toDto(comment);
+        return CommentResponseDto.of(comment);
     }
 
     public List<CommentResponseDto> findAll(String username, String email, Long todoId) {
         return commentRepository.findByFilters(username, email, todoId)
                 .stream()
-                .map(CommentResponseDto::toDto)
+                .map(CommentResponseDto::of)
                 .toList();
     }
 
@@ -46,7 +45,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto updateComment(Long id, CommentUpdateRequestDto requestDto) {
+    public CommentResponseDto updateComment(Long id, CommentRequestDto requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
         Comment findComment = commentRepository.findByIdOrElseThrow(id);
@@ -60,7 +59,7 @@ public class CommentService {
         }
 
         findComment.updateComment(requestDto);
-        return CommentResponseDto.toDto(findComment);
+        return CommentResponseDto.of(findComment);
     }
 
     @Transactional

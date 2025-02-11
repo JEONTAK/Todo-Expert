@@ -1,7 +1,6 @@
 package com.example.todoexpert.todo.entity;
 
-import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
+import com.example.todoexpert.todo.dto.request.TodoRequestDto;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.util.TimeStamped;
 import jakarta.persistence.Column;
@@ -35,13 +34,17 @@ public class Todo extends TimeStamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Todo(User user, TodoSaveRequestDto requestDto) {
+    private Todo(User user, String title, String contents) {
         this.user = user;
-        this.title = requestDto.getTitle();
-        this.contents = requestDto.getContents();
+        this.title = title;
+        this.contents = contents;
     }
 
-    public void updateTodo(TodoUpdateRequestDto requestDto) {
+    public static Todo toEntity(User findUser, TodoRequestDto requestDto) {
+        return new Todo(findUser, requestDto.getTitle(), requestDto.getContents());
+    }
+    
+    public void updateTodo(TodoRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

@@ -1,8 +1,7 @@
 package com.example.todoexpert.user.entity;
 
+import com.example.todoexpert.user.dto.request.UserRequestDto;
 import com.example.todoexpert.util.TimeStamped;
-import com.example.todoexpert.user.dto.request.UserSaveRequestDto;
-import com.example.todoexpert.user.dto.request.UserUpdateRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,13 +30,17 @@ public class User extends TimeStamped {
     @Column(nullable = false)
     private String password;
 
-    public User(UserSaveRequestDto requestDto, String encodedPassword) {
-        this.email = requestDto.getEmail();
-        this.username = requestDto.getUsername();
-        this.password = encodedPassword;
+    private User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
-    public void updateUser(UserUpdateRequestDto requestDto) {
+    public static User toEntity(UserRequestDto requestDto, String encodedPassword) {
+        return new User(requestDto.getEmail(), requestDto.getUsername(), encodedPassword);
+    }
+
+    public void updateUser(UserRequestDto requestDto) {
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
     }

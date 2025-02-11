@@ -14,7 +14,7 @@ import org.springframework.util.PatternMatchUtils;
 
 public class AuthFilter implements Filter {
 
-    private static final String[] WHITE_LIST = {"*/auth/login", "*/users/register", "*/auth/logout"};
+    private static final String[] WHITE_LIST = {"*/auth/login", "*/users/register"};
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)

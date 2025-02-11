@@ -1,10 +1,9 @@
 package com.example.todoexpert.todo.service;
 
 import com.example.todoexpert.comment.dto.response.CommentInTodoResponseDto;
-import com.example.todoexpert.comment.repository.CommentRepository;
+import com.example.todoexpert.comment.service.CommentServiceForTodo;
 import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
+import com.example.todoexpert.todo.dto.request.TodoRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoPageResponseDto;
@@ -28,42 +27,41 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TodoService {
 
-    private final String MODIFIED_DESC= "modifiedAt";
+    private final String MODIFIED_DESC = "modifiedAt";
     private final TodoRepository todoRepository;
     private final UserService userService;
-    private final CommentRepository commentRepository;
+    private final CommentServiceForTodo commentServiceForTodo;
 
-    public TodoCommonResponseDto saveTodo(TodoSaveRequestDto requestDto) {
+    public TodoCommonResponseDto saveTodo(TodoRequestDto requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
-        Todo todo = new Todo(findUser, requestDto);
+        Todo todo = Todo.toEntity(findUser, requestDto);
         todoRepository.save(todo);
-        return TodoCommonResponseDto.toDto(todo);
+        return TodoCommonResponseDto.of(todo);
     }
 
     public List<TodoFindResponseDto> findAll(String username, String email) {
         return todoRepository.findByFilters(username, email)
                 .stream()
-                .map(todo -> TodoFindResponseDto.toDto(todo, commentRepository.findByTodoId(todo.getId())
+                .map(todo -> TodoFindResponseDto.of(todo, commentServiceForTodo.findByTodoId(todo.getId())
                         .stream()
-                        .map(CommentInTodoResponseDto::toDto)
+                        .map(CommentInTodoResponseDto::of)
                         .toList()))
                 .toList();
-
     }
 
     public Page<TodoPageResponseDto> findAllByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Direction.DESC, MODIFIED_DESC));
         return todoRepository.findAll(pageable)
-                .map(todo -> TodoPageResponseDto.toDto(todo, commentRepository.findByTodoId(todo.getId()).size()));
+                .map(todo -> TodoPageResponseDto.of(todo, commentServiceForTodo.findByTodoId(todo.getId()).size()));
     }
 
     public TodoFindResponseDto findByIdWithComment(Long id) {
         Todo todo = todoRepository.findByIdOrElseThrow(id);
-        List<CommentInTodoResponseDto> comments = commentRepository.findByTodoId(todo.getId())
+        List<CommentInTodoResponseDto> comments = commentServiceForTodo.findByTodoId(todo.getId())
                 .stream()
-                .map(CommentInTodoResponseDto::toDto)
+                .map(CommentInTodoResponseDto::of)
                 .toList();
-        return TodoFindResponseDto.toDto(todo, comments);
+        return TodoFindResponseDto.of(todo, comments);
     }
 
     public Todo findById(Long id) {
@@ -71,7 +69,7 @@ public class TodoService {
     }
 
     @Transactional
-    public TodoCommonResponseDto updateTodo(Long id, TodoUpdateRequestDto requestDto) {
+    public TodoCommonResponseDto updateTodo(Long id, TodoRequestDto requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findByIdOrElseThrow(id);
 
@@ -80,7 +78,7 @@ public class TodoService {
         }
 
         findTodo.updateTodo(requestDto);
-        return TodoCommonResponseDto.toDto(findTodo);
+        return TodoCommonResponseDto.of(findTodo);
     }
 
     @Transactional

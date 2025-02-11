@@ -1,32 +1,34 @@
-package com.example.todoexpert.comment.dto.request;
+package com.example.todoexpert.todo.dto.request;
 
-import static com.example.todoexpert.util.Constants.COMMENT_CONTENTS_SIZE;
 import static com.example.todoexpert.util.Constants.CONTENTS_NOT_NULL;
+import static com.example.todoexpert.util.Constants.TODO_CONTENTS_SIZE;
 import static com.example.todoexpert.util.Constants.EMAIL_SIZE;
 import static com.example.todoexpert.util.Constants.EMAIl_NOT_NULL;
 import static com.example.todoexpert.util.Constants.EMAIl_TYPE;
-import static com.example.todoexpert.util.Constants.TODO_ID_NOT_NULL;
+import static com.example.todoexpert.util.Constants.TITLE_NOT_NULL;
+import static com.example.todoexpert.util.Constants.TITLE_SIZE;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentUpdateRequestDto {
-
-    @NotNull(message = TODO_ID_NOT_NULL)
-    private final Long todoId;
+public class TodoRequestDto {
 
     @NotBlank(message = EMAIl_NOT_NULL)
     @Email(message = EMAIl_TYPE)
     @Size(max = 40, message = EMAIL_SIZE)
     private final String email;
 
+    @NotBlank(message = TITLE_NOT_NULL)
+    @Size(max = 20, message = TITLE_SIZE)
+    private final String title;
+
     @NotBlank(message = CONTENTS_NOT_NULL)
-    @Size(max = 50, message = COMMENT_CONTENTS_SIZE)
+    @Size(max = 200, message = TODO_CONTENTS_SIZE)
     private final String contents;
+
 }

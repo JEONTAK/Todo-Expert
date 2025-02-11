@@ -1,7 +1,6 @@
 package com.example.todoexpert.comment.entity;
 
-import com.example.todoexpert.comment.dto.request.CommentSaveRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentUpdateRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentRequestDto;
 import com.example.todoexpert.todo.entity.Todo;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.util.TimeStamped;
@@ -37,14 +36,17 @@ public class Comment extends TimeStamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-
-    public Comment(User findUser, Todo findTodo, CommentSaveRequestDto requestDto) {
-        this.contents = requestDto.getContents();
+    private Comment(User findUser, Todo findTodo, String contents) {
+        this.contents = contents;
         this.user = findUser;
         this.todo = findTodo;
     }
 
-    public void updateComment(CommentUpdateRequestDto requestDto) {
+    public static Comment toEntity(User findUser, Todo findTodo, CommentRequestDto requestDto) {
+        return new Comment(findUser, findTodo, requestDto.getContents());
+    }
+
+    public void updateComment(CommentRequestDto requestDto) {
         this.contents = requestDto.getContents();
     }
 }

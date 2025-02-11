@@ -656,12 +656,12 @@ ___
 #### Configuration
 
 - DTO 최적화
-    - [ ] SaveResponseDto와 UpdateResponseDto 하나로 합침
+    - [X] SaveResponseDto와 UpdateResponseDto 하나로 합침
 - CommentServiceForTodo
-    - [ ] findByTodoId를 해당 서비스에 구현 후 TodoService에서는 해당 서비스 적용
+    - [X] findByTodoId를 해당 서비스에 구현 후 TodoService에서는 해당 서비스 적용
 - static factory method
-    - [ ] responseDto 사용시 new ResponseDto 사용보다는, static 메서드 생성하여 사용 권장
-    - [ ] responseDto의 생성자는 private로 관리
+    - [X] responseDto 사용시 new ResponseDto 사용보다는, static 메서드 생성하여 사용 권장
+    - [X] responseDto의 생성자는 private로 관리
 ___
 
 ## V3. 테스트 케이스 작성

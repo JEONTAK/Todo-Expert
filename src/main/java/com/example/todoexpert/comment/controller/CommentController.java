@@ -2,8 +2,7 @@ package com.example.todoexpert.comment.controller;
 
 
 import com.example.todoexpert.comment.dto.request.CommentDeleteRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentSaveRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentUpdateRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentRequestDto;
 import com.example.todoexpert.comment.dto.response.CommentResponseDto;
 import com.example.todoexpert.comment.service.CommentService;
 import java.util.List;
@@ -27,7 +26,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/comments")
-    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentSaveRequestDto requestDto) {
+    public ResponseEntity<CommentResponseDto> saveComment(@RequestBody CommentRequestDto requestDto) {
         CommentResponseDto responseDto = commentService.saveComment(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -42,13 +41,13 @@ public class CommentController {
 
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentResponseDto> findById(@PathVariable Long id) {
-        CommentResponseDto responseDto = CommentResponseDto.toDto(commentService.findById(id));
+        CommentResponseDto responseDto = CommentResponseDto.of(commentService.findById(id));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentResponseDto> updateComment(@PathVariable Long id,
-                                                            @RequestBody CommentUpdateRequestDto requestDto) {
+                                                            @RequestBody CommentRequestDto requestDto) {
         CommentResponseDto responseDto = commentService.updateComment(id, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

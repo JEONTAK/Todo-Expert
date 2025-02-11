@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentSaveRequestDto {
+public class CommentRequestDto {
 
     @NotNull(message = TODO_ID_NOT_NULL)
     private final Long todoId;

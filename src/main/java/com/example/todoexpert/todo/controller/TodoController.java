@@ -1,8 +1,7 @@
 package com.example.todoexpert.todo.controller;
 
 import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoSaveRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoUpdateRequestDto;
+import com.example.todoexpert.todo.dto.request.TodoRequestDto;
 import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
 import com.example.todoexpert.todo.dto.response.TodoPageResponseDto;
@@ -30,7 +29,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoCommonResponseDto> saveTodo(@Valid @RequestBody TodoSaveRequestDto requestDto) {
+    public ResponseEntity<TodoCommonResponseDto> saveTodo(@Valid @RequestBody TodoRequestDto requestDto) {
         TodoCommonResponseDto responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -57,7 +56,7 @@ public class TodoController {
 
     @PutMapping("/todos/{id}")
     public ResponseEntity<TodoCommonResponseDto> updateTodo(@PathVariable Long id,
-                                                            @Valid @RequestBody TodoUpdateRequestDto requestDto) {
+                                                            @Valid @RequestBody TodoRequestDto requestDto) {
         TodoCommonResponseDto updateDto = todoService.updateTodo(id, requestDto);
         return new ResponseEntity<>(updateDto, HttpStatus.OK);
     }

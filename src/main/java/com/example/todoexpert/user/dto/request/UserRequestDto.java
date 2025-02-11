@@ -19,7 +19,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserSaveRequestDto {
+public class UserRequestDto {
 
     @NotBlank(message = EMAIl_NOT_NULL)
     @Email(message = EMAIl_TYPE)
