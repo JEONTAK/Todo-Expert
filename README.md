@@ -618,14 +618,13 @@ ___
 
 #### Configuration
 
-
 - [X] TodoPageResponseDto
-  - title
-  - contents
-  - username
-  - commentsCount
-  - createdAt
-  - modifiedAt
+    - title
+    - contents
+    - username
+    - commentsCount
+    - createdAt
+    - modifiedAt
 
 - Todo Controller 수정
     - [X] 전체 할일 조회(페이징) 메서드 구현
@@ -638,6 +637,86 @@ ___
 - Todo Service 수정
     - [X] 전체 할일 조회 메서드
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
+
+___
+
+## V1. 리팩토링
+
+### Requirement
+
+- DTO 최적화
+    - Save와 Update가 같은 데이터를 가지므로 하나로 합쳐 구현
+- 순환 참조 해결
+    - CommentService와 TodoService의 순환 참조를 해결
+        - CommentService에서 findTodoById만 사용하므로 해당 메서드만 따로 분리하여 CommentServiceForTodo 생성
+- static factory method 사용
+    - responseDto 사용시 new ResponseDto 사용보다는, static 메서드 생성하여 사용 권장
+    - responseDto의 생성자는 private로 관리
+
+#### Configuration
+
+- DTO 최적화
+    - [ ] SaveResponseDto와 UpdateResponseDto 하나로 합침
+- CommentServiceForTodo
+    - [ ] findByTodoId를 해당 서비스에 구현 후 TodoService에서는 해당 서비스 적용
+- static factory method
+    - [ ] responseDto 사용시 new ResponseDto 사용보다는, static 메서드 생성하여 사용 권장
+    - [ ] responseDto의 생성자는 private로 관리
+___
+
+## V3. 테스트 케이스 작성
+
+### Requirement
+
+- 정상 케이스
+
+1. 유저 등록
+2. 유저 로그인
+3. 유저 로그아웃
+4. 전체 유저 조회
+5. 단건 유저 조회
+6. 유저 수정
+7. 유저 삭제
+8. 할일 등록
+9. 전체 할일 조회
+10. 전체 할일 조회 (Paging)
+11. 단건 할일 조회
+12. 할일 수정
+13. 할일 삭제
+14. 댓글 등록
+15. 전체 댓글 조회
+16. 단건 댓글 조회
+17. 댓글 수정
+18. 댓글 삭제
+
+- 예외 케이스
+
+1. 유저 등록
+    - email : null 또는 빈칸, 형식, 길이
+    - username : null 또는 빈칸
+    - password : null 또는 빈칸, 소문자 + 숫자 조합 확인
+2. 할일 등록
+    - email : null 또는 빈칸, 형식, 길이
+    - title : null 또는 빈칸, 길이
+    - contents : null 또는 빈칸, 길이
+3. 댓글 등록
+    - todoId : null
+    - email : null 또는 빈칸, 형식, 길이
+    - contents : null 또는 빈칸, 길이
+4. 유저 로그인 하지 않을 시
+    - 로그인, 회원 가입 제외한 다른 부분 접근 시 차단
+5. 유저 수정
+    - 다른 유저가 수정 요청시 예외 처리
+6. 할일 수정
+    - 다른 유저가 수정 요청시 예외 처리
+7. 댓글 수정
+    - 다른 할일, 다른 유저가 수정 요청시 예외 처리
+8. 유저 삭제
+    - 다른 유저가 삭제 요청시 예외 처리
+9. 할일 삭제
+    - 다른 유저가 삭제 요청시 예외 처리
+10. 댓글 삭제
+    - 다른 할일, 다른 유저가 삭제 요청시 예외 처리
 
 ___
 
