@@ -1,4 +1,4 @@
-package com.example.todoexpert.user.dto.request;
+package com.example.todoexpert.todo.dto.request;
 
 import static com.example.todoexpert.util.Constants.EMAIL_SIZE;
 import static com.example.todoexpert.util.Constants.EMAIl_NOT_NULL;
@@ -12,11 +12,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserDeleteRequestDto {
+public class TodoDeleteRequest {
 
     @NotBlank(message = EMAIl_NOT_NULL)
     @Email(message = EMAIl_TYPE)
     @Size(max = 40, message = EMAIL_SIZE)
     private final String email;
-
 }

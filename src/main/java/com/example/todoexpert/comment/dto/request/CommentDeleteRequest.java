@@ -14,7 +14,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentDeleteRequestDto {
+public class CommentDeleteRequest {
 
     @NotNull(message = TODO_ID_NOT_NULL)
     private final Long todoId;

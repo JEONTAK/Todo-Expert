@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CommentRequestDto {
+public class CommentRequest {
 
     @NotNull(message = TODO_ID_NOT_NULL)
     private final Long todoId;
@@ -24,6 +24,4 @@ public class CommentRequestDto {
     @NotBlank(message = CONTENTS_NOT_NULL)
     @Size(max = 50, message = COMMENT_CONTENTS_SIZE)
     private final String contents;
-
-
 }

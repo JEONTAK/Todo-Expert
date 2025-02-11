@@ -1,9 +1,9 @@
 package com.example.todoexpert.comment.service;
 
 
-import com.example.todoexpert.comment.dto.request.CommentDeleteRequestDto;
-import com.example.todoexpert.comment.dto.request.CommentRequestDto;
-import com.example.todoexpert.comment.dto.response.CommentResponseDto;
+import com.example.todoexpert.comment.dto.request.CommentDeleteRequest;
+import com.example.todoexpert.comment.dto.request.CommentRequest;
+import com.example.todoexpert.comment.dto.response.CommentResponse;
 import com.example.todoexpert.comment.entity.Comment;
 import com.example.todoexpert.comment.repository.CommentRepository;
 import com.example.todoexpert.todo.entity.Todo;
@@ -25,18 +25,19 @@ public class CommentService {
     private final UserService userService;
     private final TodoService todoService;
 
-    public CommentResponseDto saveComment(CommentRequestDto requestDto) {
+    @Transactional
+    public CommentResponse saveComment(CommentRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
         Comment comment = Comment.toEntity(findUser, findTodo, requestDto);
         commentRepository.save(comment);
-        return CommentResponseDto.of(comment);
+        return CommentResponse.of(comment);
     }
 
-    public List<CommentResponseDto> findAll(String username, String email, Long todoId) {
+    public List<CommentResponse> findAll(String username, String email, Long todoId) {
         return commentRepository.findByFilters(username, email, todoId)
                 .stream()
-                .map(CommentResponseDto::of)
+                .map(CommentResponse::of)
                 .toList();
     }
 
@@ -45,7 +46,7 @@ public class CommentService {
     }
 
     @Transactional
-    public CommentResponseDto updateComment(Long id, CommentRequestDto requestDto) {
+    public CommentResponse updateComment(Long id, CommentRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
         Comment findComment = commentRepository.findByIdOrElseThrow(id);
@@ -59,11 +60,12 @@ public class CommentService {
         }
 
         findComment.updateComment(requestDto);
-        return CommentResponseDto.of(findComment);
+        findComment = commentRepository.findByIdOrElseThrow(id);
+        return CommentResponse.of(findComment);
     }
 
     @Transactional
-    public void deleteComment(Long id, CommentDeleteRequestDto requestDto) {
+    public void deleteComment(Long id, CommentDeleteRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
         Comment findComment = commentRepository.findByIdOrElseThrow(id);

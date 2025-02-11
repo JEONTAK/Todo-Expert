@@ -19,7 +19,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserRequestDto {
+public class UserRequest {
 
     @NotBlank(message = EMAIl_NOT_NULL)
     @Email(message = EMAIl_TYPE)
@@ -34,5 +34,4 @@ public class UserRequestDto {
     @Size(max = 20, message = PASSWORD_SIZE)
     @Pattern(regexp = IS_INCLUDE_SMALL_ALPHABET_NUMBER, message = PASSWORD_REQUIREMENT)
     private final String password;
-
 }

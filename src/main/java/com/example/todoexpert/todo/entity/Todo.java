@@ -1,10 +1,11 @@
 package com.example.todoexpert.todo.entity;
 
-import com.example.todoexpert.todo.dto.request.TodoRequestDto;
+import com.example.todoexpert.todo.dto.request.TodoRequest;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.util.TimeStamped;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +31,7 @@ public class Todo extends TimeStamped {
     @Column(nullable = false, columnDefinition = "longtext")
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -40,11 +41,11 @@ public class Todo extends TimeStamped {
         this.contents = contents;
     }
 
-    public static Todo toEntity(User findUser, TodoRequestDto requestDto) {
+    public static Todo toEntity(User findUser, TodoRequest requestDto) {
         return new Todo(findUser, requestDto.getTitle(), requestDto.getContents());
     }
     
-    public void updateTodo(TodoRequestDto requestDto) {
+    public void updateTodo(TodoRequest requestDto) {
         this.title = requestDto.getTitle();
         this.contents = requestDto.getContents();
     }

@@ -3,9 +3,9 @@ package com.example.todoexpert.user.service;
 import com.example.todoexpert.util.config.PasswordEncoder;
 import com.example.todoexpert.util.exception.CustomExceptionHandler;
 import com.example.todoexpert.util.exception.ErrorCode;
-import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
-import com.example.todoexpert.user.dto.request.UserRequestDto;
-import com.example.todoexpert.user.dto.response.UserResponseDto;
+import com.example.todoexpert.user.dto.request.UserDeleteRequest;
+import com.example.todoexpert.user.dto.request.UserRequest;
+import com.example.todoexpert.user.dto.response.UserResponse;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.user.repository.UserRepository;
 import java.util.List;
@@ -20,7 +20,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDto saveUser(UserRequestDto requestDto) {
+    @Transactional
+    public UserResponse saveUser(UserRequest requestDto) {
         User findUser = userRepository.findByEmail(requestDto.getEmail()).orElse(null);
 
         if (findUser != null) {
@@ -32,13 +33,13 @@ public class UserService {
         User user = User.toEntity(requestDto, encodedPassword);
         userRepository.save(user);
 
-        return UserResponseDto.of(user);
+        return UserResponse.of(user);
     }
 
-    public List<UserResponseDto> findAll() {
+    public List<UserResponse> findAll() {
         return userRepository.findAll()
                 .stream()
-                .map(UserResponseDto::of)
+                .map(UserResponse::of)
                 .toList();
     }
 
@@ -51,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponseDto updateUser(Long id, UserRequestDto requestDto) {
+    public UserResponse updateUser(Long id, UserRequest requestDto) {
         User findUser = userRepository.findByIdOrElseThrow(id);
 
         if (!findUser.getEmail().equals(requestDto.getEmail())) {
@@ -59,11 +60,12 @@ public class UserService {
         }
 
         findUser.updateUser(requestDto);
-        return UserResponseDto.of(findUser);
+        findUser = userRepository.findByIdOrElseThrow(id);
+        return UserResponse.of(findUser);
     }
 
     @Transactional
-    public void deleteUser(Long id, UserDeleteRequestDto requestDto) {
+    public void deleteUser(Long id, UserDeleteRequest requestDto) {
         User findUser = userRepository.findByIdOrElseThrow(id);
 
         if (!findUser.getEmail().equals(requestDto.getEmail())) {

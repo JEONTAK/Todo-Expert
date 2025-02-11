@@ -685,15 +685,13 @@ ___
 ### Requirement
 
 - Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
-- N + 1 문제 해결
 - FetchType LAZY로 설정
 - 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
 
 #### Configuration
 
 - [X] TodoController 및 TodoService에서 Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
-- [ ] N + 1 문제 해결
-- [ ] FetchType LAZY로 설정
+- [X] FetchType LAZY로 설정
 - [ ] 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
 ___
 

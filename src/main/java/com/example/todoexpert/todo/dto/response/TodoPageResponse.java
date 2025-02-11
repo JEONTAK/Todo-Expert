@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class TodoPageResponseDto {
+public class TodoPageResponse {
 
     private final String title;
     private final String contents;
@@ -14,8 +14,8 @@ public class TodoPageResponseDto {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    private TodoPageResponseDto(String title, String contents, String username, Integer commentsCount,
-                                LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    private TodoPageResponse(String title, String contents, String username, Integer commentsCount,
+                             LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.title = title;
         this.contents = contents;
         this.username = username;
@@ -24,8 +24,8 @@ public class TodoPageResponseDto {
         this.modifiedAt = modifiedAt;
     }
 
-    public static TodoPageResponseDto of(Todo todo, int count) {
-        return new TodoPageResponseDto(todo.getTitle(), todo.getContents(), todo.getUser().getUsername(), count,
+    public static TodoPageResponse of(Todo todo, int count) {
+        return new TodoPageResponse(todo.getTitle(), todo.getContents(), todo.getUser().getUsername(), count,
                 todo.getCreatedAt(), todo.getModifiedAt());
     }
 }

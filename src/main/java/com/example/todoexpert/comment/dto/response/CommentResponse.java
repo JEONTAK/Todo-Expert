@@ -5,18 +5,20 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class CommentInTodoResponseDto {
+public class CommentResponse {
 
     private final Long id;
+    private final String title;
     private final String email;
     private final String username;
     private final String contents;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    private CommentInTodoResponseDto(Long id, String email, String username, String contents, LocalDateTime createdAt,
-                                     LocalDateTime modifiedAt) {
+    private CommentResponse(Long id, String title, String email, String username, String contents,
+                            LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.id = id;
+        this.title = title;
         this.email = email;
         this.username = username;
         this.contents = contents;
@@ -24,8 +26,8 @@ public class CommentInTodoResponseDto {
         this.modifiedAt = modifiedAt;
     }
 
-    public static CommentInTodoResponseDto of(Comment comment) {
-        return new CommentInTodoResponseDto(comment.getId(), comment.getUser().getEmail(),
+    public static CommentResponse of(Comment comment) {
+        return new CommentResponse(comment.getId(), comment.getTodo().getTitle(), comment.getUser().getEmail(),
                 comment.getUser().getUsername(), comment.getContents(), comment.getCreatedAt(),
                 comment.getModifiedAt());
     }

@@ -16,7 +16,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class TodoRequestDto {
+public class TodoRequest {
 
     @NotBlank(message = EMAIl_NOT_NULL)
     @Email(message = EMAIl_TYPE)
@@ -30,5 +30,4 @@ public class TodoRequestDto {
     @NotBlank(message = CONTENTS_NOT_NULL)
     @Size(max = 200, message = TODO_CONTENTS_SIZE)
     private final String contents;
-
 }

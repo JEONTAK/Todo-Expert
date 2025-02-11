@@ -1,8 +1,8 @@
 package com.example.todoexpert.user.controller;
 
-import com.example.todoexpert.user.dto.request.UserDeleteRequestDto;
-import com.example.todoexpert.user.dto.request.UserRequestDto;
-import com.example.todoexpert.user.dto.response.UserResponseDto;
+import com.example.todoexpert.user.dto.request.UserDeleteRequest;
+import com.example.todoexpert.user.dto.request.UserRequest;
+import com.example.todoexpert.user.dto.response.UserResponse;
 import com.example.todoexpert.user.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -25,32 +25,32 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/register")
-    public ResponseEntity<UserResponseDto> saveUser(@Valid @RequestBody UserRequestDto requestDto) {
-        UserResponseDto responseDto = userService.saveUser(requestDto);
+    public ResponseEntity<UserResponse> saveUser(@Valid @RequestBody UserRequest requestDto) {
+        UserResponse responseDto = userService.saveUser(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserResponseDto>> findAll() {
-        List<UserResponseDto> userResponseDtoList = userService.findAll();
-        return new ResponseEntity<>(userResponseDtoList, HttpStatus.OK);
+    public ResponseEntity<List<UserResponse>> findAll() {
+        List<UserResponse> userResponseList = userService.findAll();
+        return new ResponseEntity<>(userResponseList, HttpStatus.OK);
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
-        UserResponseDto responseDto = UserResponseDto.of(userService.findById(id));
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
+        UserResponse responseDto = UserResponse.of(userService.findById(id));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id,
-                                                      @Valid @RequestBody UserRequestDto requestDto) {
-        UserResponseDto responseDto = userService.updateUser(id, requestDto);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id,
+                                                   @Valid @RequestBody UserRequest requestDto) {
+        UserResponse responseDto = userService.updateUser(id, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PostMapping("/users/delete/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @Valid @RequestBody UserDeleteRequestDto requestDto) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id, @Valid @RequestBody UserDeleteRequest requestDto) {
         userService.deleteUser(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

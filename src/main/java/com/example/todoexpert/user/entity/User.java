@@ -1,6 +1,6 @@
 package com.example.todoexpert.user.entity;
 
-import com.example.todoexpert.user.dto.request.UserRequestDto;
+import com.example.todoexpert.user.dto.request.UserRequest;
 import com.example.todoexpert.util.TimeStamped;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,11 +36,11 @@ public class User extends TimeStamped {
         this.password = password;
     }
 
-    public static User toEntity(UserRequestDto requestDto, String encodedPassword) {
+    public static User toEntity(UserRequest requestDto, String encodedPassword) {
         return new User(requestDto.getEmail(), requestDto.getUsername(), encodedPassword);
     }
 
-    public void updateUser(UserRequestDto requestDto) {
+    public void updateUser(UserRequest requestDto) {
         this.username = requestDto.getUsername();
         this.password = requestDto.getPassword();
     }

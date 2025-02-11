@@ -1,11 +1,12 @@
 package com.example.todoexpert.comment.entity;
 
-import com.example.todoexpert.comment.dto.request.CommentRequestDto;
+import com.example.todoexpert.comment.dto.request.CommentRequest;
 import com.example.todoexpert.todo.entity.Todo;
 import com.example.todoexpert.user.entity.User;
 import com.example.todoexpert.util.TimeStamped;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,11 +29,11 @@ public class Comment extends TimeStamped {
     @Column(nullable = false, columnDefinition = "longtext")
     private String contents;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
     private Todo todo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -42,11 +43,11 @@ public class Comment extends TimeStamped {
         this.todo = findTodo;
     }
 
-    public static Comment toEntity(User findUser, Todo findTodo, CommentRequestDto requestDto) {
+    public static Comment toEntity(User findUser, Todo findTodo, CommentRequest requestDto) {
         return new Comment(findUser, findTodo, requestDto.getContents());
     }
 
-    public void updateComment(CommentRequestDto requestDto) {
+    public void updateComment(CommentRequest requestDto) {
         this.contents = requestDto.getContents();
     }
 }

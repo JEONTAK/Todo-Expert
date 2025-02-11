@@ -1,15 +1,17 @@
 package com.example.todoexpert.todo.controller;
 
-import com.example.todoexpert.todo.dto.request.TodoDeleteRequestDto;
-import com.example.todoexpert.todo.dto.request.TodoRequestDto;
-import com.example.todoexpert.todo.dto.response.TodoCommonResponseDto;
-import com.example.todoexpert.todo.dto.response.TodoFindResponseDto;
-import com.example.todoexpert.todo.dto.response.TodoPageResponseDto;
+import com.example.todoexpert.todo.dto.request.TodoDeleteRequest;
+import com.example.todoexpert.todo.dto.request.TodoRequest;
+import com.example.todoexpert.todo.dto.response.TodoCommonResponse;
+import com.example.todoexpert.todo.dto.response.TodoFindResponse;
+import com.example.todoexpert.todo.dto.response.TodoPageResponse;
 import com.example.todoexpert.todo.service.TodoService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,40 +31,39 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping("/todos")
-    public ResponseEntity<TodoCommonResponseDto> saveTodo(@Valid @RequestBody TodoRequestDto requestDto) {
-        TodoCommonResponseDto responseDto = todoService.saveTodo(requestDto);
+    public ResponseEntity<TodoCommonResponse> saveTodo(@Valid @RequestBody TodoRequest requestDto) {
+        TodoCommonResponse responseDto = todoService.saveTodo(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoFindResponseDto>> findAll(@RequestParam(required = false) String username,
-                                                             @RequestParam(required = false) String userEmail) {
-        List<TodoFindResponseDto> responseDtoList = todoService.findAll(username, userEmail);
+    public ResponseEntity<List<TodoFindResponse>> findAll(@RequestParam(required = false) String username,
+                                                          @RequestParam(required = false) String userEmail) {
+        List<TodoFindResponse> responseDtoList = todoService.findAll(username, userEmail);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/todos/pages")
-    public ResponseEntity<Page<TodoPageResponseDto>> findAllByPage(@RequestParam(defaultValue = "0") Integer pageNumber,
-                                                                   @RequestParam(defaultValue = "10") Integer pageSize) {
-        Page<TodoPageResponseDto> responseDtoList = todoService.findAllByPage(pageNumber, pageSize);
+    public ResponseEntity<Page<TodoPageResponse>> findAllByPage(@PageableDefault(size = 10) Pageable pageable) {
+        Page<TodoPageResponse> responseDtoList = todoService.findAllByPage(pageable);
         return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
     }
 
     @GetMapping("/todos/{id}")
-    public ResponseEntity<TodoFindResponseDto> findById(@PathVariable Long id) {
-        TodoFindResponseDto responseDto = todoService.findByIdWithComment(id);
+    public ResponseEntity<TodoFindResponse> findById(@PathVariable Long id) {
+        TodoFindResponse responseDto = todoService.findByIdWithComment(id);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PutMapping("/todos/{id}")
-    public ResponseEntity<TodoCommonResponseDto> updateTodo(@PathVariable Long id,
-                                                            @Valid @RequestBody TodoRequestDto requestDto) {
-        TodoCommonResponseDto updateDto = todoService.updateTodo(id, requestDto);
+    public ResponseEntity<TodoCommonResponse> updateTodo(@PathVariable Long id,
+                                                         @Valid @RequestBody TodoRequest requestDto) {
+        TodoCommonResponse updateDto = todoService.updateTodo(id, requestDto);
         return new ResponseEntity<>(updateDto, HttpStatus.OK);
     }
 
     @PostMapping("/todos/delete/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable Long id, @Valid @RequestBody TodoDeleteRequestDto requestDto) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable Long id, @Valid @RequestBody TodoDeleteRequest requestDto) {
         todoService.deleteTodo(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
