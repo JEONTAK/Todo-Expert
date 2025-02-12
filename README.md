@@ -14,25 +14,13 @@
 
 - [X] API 명세서 작성
     - [X] 할일 API 설계
-        - [X] 할일 생성(등록)
-        - [X] 전체 할일 조회
-        - [X] 단건 할일 조회
-        - [X] 할일 수정
-        - [X] 할일 삭제
+        - 할일 생성(등록), 전체 할일 조회, 단건 할일 조회, 할일 수정, 할일 삭제
 
     - [X] 유저 API 설계
-        - [X] 유저 생성(등록)
-        - [X] 전체 유저 조회
-        - [X] 단건 유저 조회
-        - [X] 유저 수정
-        - [X] 유저 삭제
+        - 유저 생성(등록), 전체 유저 조회, 단건 유저 조회, 유저 수정, 유저 삭제
 
     - [X] 댓글 API 설계
-        - [X] 댓글 생성(등록)
-        - [X] 전체 댓글 조회
-        - [X] 단건 댓글 조회
-        - [X] 댓글 수정
-        - [X] 댓글 삭제
+        - 댓글 생성(등록), 전체 댓글 조회, 단건 댓글 조회, 댓글 수정, 댓글 삭제
 
 - [X] ERD 작성
     - [X] todo
@@ -121,11 +109,11 @@
 CREATE TABLE user
 (
     id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    email       VARCHAR(255) NOT NULL,
-    username    VARCHAR(30)  NOT NULL,
-    password    VARCHAR(20)  NOT NULL,
-    created_at  DATETIME     NOT NULL,
-    modified_at DATETIME     NOT NULL
+    email       VARCHAR(40) NOT NULL,
+    username    VARCHAR(30) NOT NULL,
+    password    VARCHAR(20) NOT NULL,
+    created_at  DATETIME    NOT NULL,
+    modified_at DATETIME    NOT NULL
 );
 
 CREATE TABLE todo
@@ -169,17 +157,16 @@ CREATE TABLE comment
 
 #### Configuration
 
+<details>
+<summary></summary>
+
 - [X] 할일 Entity (TimeStamped Auditing)
-    - [X] 필드[
-        - id
-        - username
-        - title
-        - contents
+    - [X] 필드
+        - id, username, title, contents
 
 - TimeStamped Entity
     - [X] 필드
-        - createdAt
-        - modifiedAt
+        - createdAt, modifiedAt
 
 - [X] 할일 Controller
     - [X] 할일 생성 메서드
@@ -229,6 +216,7 @@ CREATE TABLE comment
     - [X] findTodosByUsername
         - 유저 이름 통해 할일 리스트 찾음
 
+</details>
 ___
 
 ## Lv 2,3. 유저 CRUD 및 회원 가입
@@ -248,6 +236,8 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - [X] 유저 Entity (TimeStamped Auditing)
     - [X] 필드
         - Long id
@@ -339,6 +329,7 @@ ___
         - 이메일 또는 유저명이 입력으로 주어짐.
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
 
+</details>
 ___
 
 ## Lv 4. 로그인(인증)
@@ -356,10 +347,11 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - [X] WebConfig
     - [X] loginFilter()
         - 로그인용 필터 생성
-
 
 - [X] AuthFilter
     - [X] doFilter()
@@ -401,6 +393,7 @@ ___
             - BAD_REQUEST 출력
         - dto를 통해 유저 정보 반환
 
+</details>
 ___
 
 ## Lv 5. 다양한 예외처리 적용하기
@@ -412,6 +405,8 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - Exception
     - [X] CustomExceptionHandler : 직접 만든 에러코드로 Exception 사용하기 위함
 
@@ -485,6 +480,7 @@ ___
     - [X] : 유저 Id로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
     - [X] : 유저 email로 검색 시, 해당 유저가 존재하지 않을 경우 : NOT_FOUND_USER 반환
 
+</details>
 ___
 
 ## Lv 6. 비밀번호 암호화
@@ -496,6 +492,8 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - [X] PasswordEncoder
     - [X] encode(password)
         - 입력 받은 비밀번호를 암호화 한후 String 타입으로 반환
@@ -508,6 +506,7 @@ ___
 - [X] UserService
     - [X] 회원가입 시, 비밀번호를 encode 하여 저장
 
+</details>
 ___
 
 ## Lv 7. 댓글 CRUD
@@ -524,6 +523,8 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - Comment
     - [X] Field
         - id
@@ -619,6 +620,7 @@ ___
         - 들어온 id값을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
             - 각 할일의 댓글들도 조회하여 dto에 List형식으로 추가 후 return
 
+</details>
 ___
 
 ## Lv 8. 일정 페이징 조회
@@ -633,6 +635,8 @@ ___
 
 #### Configuration
 
+<details>
+<summary></summary>
 - [X] TodoPageResponseDto
     - title
     - contents
@@ -653,6 +657,7 @@ ___
     - [X] 전체 할일 조회 메서드
         - 들어온 조건을 사용해 할일 Repository에 할일 조회 요청 후 반환 값 return (responseDto 형식)
 
+</details>
 ___
 
 ## V1. 리팩토링
@@ -693,19 +698,22 @@ ___
 - [X] TodoController 및 TodoService에서 Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
 - [X] FetchType LAZY로 설정
 - [X] 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
+
 ___
 
 ## V3. 리팩토링
 
 ### Requirement
 
-- [X]  디렉토리 구조 3 Layered Architecture로 변경
-- [X]  리포지토리의 default 제거 하여 validation을 온전히 Service에서 처리
-- [X]  @Transactional 사용할곳만 사용
-- [ ]  Service에서 dto 객체를 직접 return이 아닌 Controller에 객체를 return하고 Controller에서 dto로 변환
-- [ ]  dto에는 꼭 필요한 정보만 넣기
-- 
+- [X] 디렉토리 구조 3 Layered Architecture로 변경
+- [X] 리포지토리의 default 제거 하여 validation을 온전히 Service에서 처리
+- [X] @Transactional 사용할곳만 사용
+- [X] README.md 정리 및 리팩토링
+- [X] dto에는 꼭 필요한 정보만 넣기
+- [ ] Service에서 dto 객체를 직접 return이 아닌 Controller에 객체를 return하고 Controller에서 dto로 변환
+
 ___
+
 ## Commit Convention
 
 ### 형식

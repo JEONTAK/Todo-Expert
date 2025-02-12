@@ -1,9 +1,7 @@
 package com.example.todoexpert.controller;
 
 import com.example.todoexpert.dto.request.auth.LoginRequestDto;
-import com.example.todoexpert.dto.request.auth.LogoutRequestDto;
 import com.example.todoexpert.dto.response.auth.LoginResponseDto;
-import com.example.todoexpert.dto.response.auth.LogoutResponseDto;
 import com.example.todoexpert.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -30,9 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/auth/logout")
-    public ResponseEntity<LogoutResponseDto> logout(HttpServletRequest httpRequest,
-                                                    @Valid @RequestBody LogoutRequestDto requestDto) {
-        LogoutResponseDto responseDto = authService.logout(httpRequest, requestDto);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public ResponseEntity<Void> logout(HttpServletRequest httpRequest) {
+        authService.logout(httpRequest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
