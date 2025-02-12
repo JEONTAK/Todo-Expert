@@ -29,7 +29,7 @@ public class AuthFilter implements Filter {
             }
         }
 
-        if (requestURI.startsWith("/api/v6/users/register")) {
+        if (requestURI.startsWith("/api/v1/users/register")) {
             HttpSession session = httpRequest.getSession(false);
             if (session != null && session.getAttribute("user") != null) {
                 throw new CustomExceptionHandler(ErrorCode.ALREADY_LOGIN);

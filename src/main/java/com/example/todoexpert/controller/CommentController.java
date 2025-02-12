@@ -5,6 +5,7 @@ import com.example.todoexpert.dto.request.comment.CommentDeleteRequest;
 import com.example.todoexpert.dto.request.comment.CommentRequest;
 import com.example.todoexpert.dto.response.comment.CommentResponse;
 import com.example.todoexpert.service.CommentService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v6")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
     @PostMapping("/comments")
-    public ResponseEntity<CommentResponse> saveComment(@RequestBody CommentRequest requestDto) {
+    public ResponseEntity<CommentResponse> saveComment(@Valid @RequestBody CommentRequest requestDto) {
         CommentResponse responseDto = commentService.saveComment(requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
@@ -47,14 +48,14 @@ public class CommentController {
 
     @PutMapping("/comments/{id}")
     public ResponseEntity<CommentResponse> updateComment(@PathVariable Long id,
-                                                         @RequestBody CommentRequest requestDto) {
+                                                         @Valid @RequestBody CommentRequest requestDto) {
         CommentResponse responseDto = commentService.updateComment(id, requestDto);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PostMapping("/comments/delete/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id,
-                                              @RequestBody CommentDeleteRequest requestDto) {
+                                              @Valid @RequestBody CommentDeleteRequest requestDto) {
         commentService.deleteComment(id, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }

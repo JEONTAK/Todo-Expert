@@ -710,7 +710,6 @@ ___
 - [X] @Transactional 사용할곳만 사용
 - [X] README.md 정리 및 리팩토링
 - [X] dto에는 꼭 필요한 정보만 넣기
-- [ ] Service에서 dto 객체를 직접 return이 아닌 Controller에 객체를 return하고 Controller에서 dto로 변환
 
 ___
 
