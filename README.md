@@ -699,7 +699,7 @@ ___
 
 ### Requirement
 
-- [ ]  디렉토리 구조 3 Layered Architecture로 변경
+- [X]  디렉토리 구조 3 Layered Architecture로 변경
 - [ ]  리포지토리의 default 제거 하여 validation을 온전히 Service에서 처리
 - [ ]  @Transactional 사용할곳만 사용
 - [ ]  Service에서 dto 객체를 직접 return이 아닌 Controller에 객체를 return하고 Controller에서 dto로 변환
