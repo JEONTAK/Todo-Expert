@@ -20,7 +20,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public UserResponse saveUser(UserRequest requestDto) {
         User findUser = userRepository.findByEmail(requestDto.getEmail()).orElse(null);
 
@@ -64,7 +63,6 @@ public class UserService {
         return UserResponse.of(findUser);
     }
 
-    @Transactional
     public void deleteUser(Long id, UserDeleteRequest requestDto) {
         User findUser = userRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
 

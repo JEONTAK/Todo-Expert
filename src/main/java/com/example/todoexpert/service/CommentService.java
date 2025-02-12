@@ -23,7 +23,6 @@ public class CommentService {
     private final UserService userService;
     private final TodoService todoService;
 
-    @Transactional
     public CommentResponse saveComment(CommentRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
@@ -62,7 +61,6 @@ public class CommentService {
         return CommentResponse.of(findComment);
     }
 
-    @Transactional
     public void deleteComment(Long id, CommentDeleteRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());

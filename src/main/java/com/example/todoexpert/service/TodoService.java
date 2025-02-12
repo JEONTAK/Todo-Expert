@@ -26,7 +26,6 @@ public class TodoService {
     private final UserService userService;
     private final CommentServiceForTodo commentServiceForTodo;
 
-    @Transactional
     public TodoCommonResponse saveTodo(TodoRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo todo = Todo.toEntity(findUser, requestDto);
@@ -76,7 +75,6 @@ public class TodoService {
         return TodoCommonResponse.of(findTodo);
     }
 
-    @Transactional
     public void deleteTodo(Long id, TodoDeleteRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
