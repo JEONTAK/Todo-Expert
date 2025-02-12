@@ -40,14 +40,14 @@ public class CommentService {
     }
 
     public Comment findById(Long id) {
-        return commentRepository.findByIdOrElseThrow(id);
+        return commentRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_COMMENT));
     }
 
     @Transactional
     public CommentResponse updateComment(Long id, CommentRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
-        Comment findComment = commentRepository.findByIdOrElseThrow(id);
+        Comment findComment = commentRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_COMMENT));
 
         if (!findComment.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_COMMENT);
@@ -58,7 +58,7 @@ public class CommentService {
         }
 
         findComment.updateComment(requestDto);
-        findComment = commentRepository.findByIdOrElseThrow(id);
+        findComment = commentRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_COMMENT));
         return CommentResponse.of(findComment);
     }
 
@@ -66,7 +66,7 @@ public class CommentService {
     public void deleteComment(Long id, CommentDeleteRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
         Todo findTodo = todoService.findById(requestDto.getTodoId());
-        Comment findComment = commentRepository.findByIdOrElseThrow(id);
+        Comment findComment = commentRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_COMMENT));
 
         if (!findComment.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_COMMENT);

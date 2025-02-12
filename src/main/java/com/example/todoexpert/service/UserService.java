@@ -44,29 +44,29 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findByIdOrElseThrow(id);
+        return userRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
     }
 
     public User findByEmail(String email) {
-        return userRepository.findByEmailOrElseThrow(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
     }
 
     @Transactional
     public UserResponse updateUser(Long id, UserRequest requestDto) {
-        User findUser = userRepository.findByIdOrElseThrow(id);
+        User findUser = userRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
 
         if (!findUser.getEmail().equals(requestDto.getEmail())) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_USER);
         }
 
         findUser.updateUser(requestDto);
-        findUser = userRepository.findByIdOrElseThrow(id);
+        findUser = userRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
         return UserResponse.of(findUser);
     }
 
     @Transactional
     public void deleteUser(Long id, UserDeleteRequest requestDto) {
-        User findUser = userRepository.findByIdOrElseThrow(id);
+        User findUser = userRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
 
         if (!findUser.getEmail().equals(requestDto.getEmail())) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_DELETE_USER);

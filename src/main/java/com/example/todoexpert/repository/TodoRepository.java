@@ -1,8 +1,6 @@
 package com.example.todoexpert.repository;
 
 import com.example.todoexpert.entity.Todo;
-import com.example.todoexpert.util.exception.CustomExceptionHandler;
-import com.example.todoexpert.util.exception.ErrorCode;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long> {
-
-    default Todo findByIdOrElseThrow(Long id) {
-        return findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
-    }
 
     @Query("SELECT t FROM Todo t " +
             "JOIN t.user u " +

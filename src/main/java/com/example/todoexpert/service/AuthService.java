@@ -22,7 +22,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public LoginResponseDto login(LoginRequestDto request, HttpServletRequest httpRequest) {
-        User findUser = userRepository.findByEmailOrElseThrow(request.getEmail());
+        User findUser = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
 
         if (!passwordEncoder.matches(request.getPassword(), findUser.getPassword())) {
             throw new CustomExceptionHandler(ErrorCode.NOT_MATCH_PASSWORD);
@@ -35,7 +35,7 @@ public class AuthService {
     }
 
     public LogoutResponseDto logout(HttpServletRequest httpRequest, LogoutRequestDto requestDto) {
-        User findUser = userRepository.findByEmailOrElseThrow(requestDto.getEmail());
+        User findUser = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_USER));
 
         HttpSession session = httpRequest.getSession(false);
 

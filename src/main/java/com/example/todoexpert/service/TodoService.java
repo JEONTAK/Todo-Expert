@@ -50,7 +50,7 @@ public class TodoService {
     }
 
     public TodoFindResponse findByIdWithComment(Long id) {
-        Todo todo = todoRepository.findByIdOrElseThrow(id);
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
         List<CommentInTodoResponse> comments = commentServiceForTodo.findByTodoId(todo.getId())
                 .stream()
                 .map(CommentInTodoResponse::of)
@@ -59,27 +59,27 @@ public class TodoService {
     }
 
     public Todo findById(Long id) {
-        return todoRepository.findByIdOrElseThrow(id);
+        return todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
     }
 
     @Transactional
     public TodoCommonResponse updateTodo(Long id, TodoRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
-        Todo findTodo = todoRepository.findByIdOrElseThrow(id);
+        Todo findTodo = todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
 
         if (!findTodo.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_UPDATE_TODO);
         }
 
         findTodo.updateTodo(requestDto);
-        findTodo = todoRepository.findByIdOrElseThrow(id);
+        findTodo = todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
         return TodoCommonResponse.of(findTodo);
     }
 
     @Transactional
     public void deleteTodo(Long id, TodoDeleteRequest requestDto) {
         User findUser = userService.findByEmail(requestDto.getEmail());
-        Todo findTodo = todoRepository.findByIdOrElseThrow(id);
+        Todo findTodo = todoRepository.findById(id).orElseThrow(() -> new CustomExceptionHandler(ErrorCode.NOT_FOUND_TODO));
 
         if (!findTodo.getUser().equals(findUser)) {
             throw new CustomExceptionHandler(ErrorCode.INVALID_USER_DELETE_TODO);
