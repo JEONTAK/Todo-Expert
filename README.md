@@ -692,9 +692,20 @@ ___
 
 - [X] TodoController 및 TodoService에서 Page pageNumber, pageSize가 아닌 Pageable 객체로 받도록 수정
 - [X] FetchType LAZY로 설정
-- [ ] 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
+- [X] 업데이트이후 바로 dto 반환 시 수정 시간이 업데이트 되지 않는 문제 해결
 ___
 
+## V3. 리팩토링
+
+### Requirement
+
+- [ ]  디렉토리 구조 3 Layered Architecture로 변경
+- [ ]  리포지토리의 default 제거 하여 validation을 온전히 Service에서 처리
+- [ ]  @Transactional 사용할곳만 사용
+- [ ]  Service에서 dto 객체를 직접 return이 아닌 Controller에 객체를 return하고 Controller에서 dto로 변환
+- [ ]  dto에는 꼭 필요한 정보만 넣기
+- 
+___
 ## Commit Convention
 
 ### 형식
