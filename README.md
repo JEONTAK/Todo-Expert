@@ -92,16 +92,78 @@
 #### ERD 작성
 
 **Lv1**
-
-![lv1.png](ERD/Lv1.png)
+```mermaid
+erDiagram
+    Todo {
+        BIGINT id PK "Todo Unique ID"
+        VARCHAR(20) username "User name"
+        TEXT title "Todo Title"
+        TEXT contents "Todo Contents"
+        DATETIME created_at "Todo Create Date"
+        DATETIME modified_at "Todo Edit Date"
+    }
+```
 
 **Lv2,3**
-
-![lv3.png](ERD/Lv2And3.png)
+```mermaid
+erDiagram
+    User {
+        BIGINT id PK "User Unique ID"
+        VARCHAR(40) email "User Email"
+        VARCHAR(20) username "User Name"
+        VARCHAR(20) password "User Password"
+        DATETIME created_at "User Create Date"
+        DATETIME modified_at "User Edit Date"
+    }
+    
+    Todo {
+        BIGINT id PK "Todo Unique ID"
+        BIGINT user_id FK "User Unique ID"
+        TEXT title "Todo Title"
+        TEXT contents "Todo Contents"
+        DATETIME created_at "Todo Create Date"
+        DATETIME modified_at "Todo Edit Date"
+    }
+    
+    %% Relationships
+    User ||--o{ Todo : "has"
+```
 
 **Lv7**
-
-![lv7.png](ERD/Lv7.png)
+```mermaid
+erDiagram
+    User {
+        BIGINT id PK "User Unique ID"
+        VARCHAR(40) email "User Email"
+        VARCHAR(20) username "User Name"
+        VARCHAR(20) password "User Password"
+        DATETIME created_at "User Create Date"
+        DATETIME modified_at "User Edit Date"
+    }
+    
+    Todo {
+        BIGINT id PK "Todo Unique ID"
+        BIGINT user_id FK "User Unique ID"
+        TEXT title "Todo Title"
+        TEXT contents "Todo Contents"
+        DATETIME created_at "Todo Create Date"
+        DATETIME modified_at "Todo Edit Date"
+    }
+    
+    Comment {
+        BIGINT id PK "Comment Unique ID"
+        BIGINT todo_id FK "Todo ID"
+        BIGINT user_id FK "User ID"
+        TEXT contents "Comment Contents"
+        DATETIME created_at "Comment Create Date"
+        DATETIME modified_at "Comment Edit Date"
+    }
+    
+    %% Relationships
+    User ||--o{ Todo : "has"
+    Todo ||--o{ Comment : "has"
+    User ||--o{ Comment : "creates"
+```
 
 #### SQL 작성
 
